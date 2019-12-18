@@ -1,0 +1,36 @@
+@import '../../app';
+
+$border: solid map_get($colors, gray);
+
+.table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    border-left: 1px $border;
+    border-right: 1px $border;
+    border-top: 1px $border;
+}
+
+.table {
+    width: 100%;
+    max-width: 100%;
+    background-color: transparent;
+}
+
+.table-selectable > th:first-child {
+    width: 60px !important;
+}
+
+th {
+    min-width: 120px;
+}
+
+$dimensions: 18px;
+
+input[type=checkbox]:not(.modal-trigger):not(.toggle):not(#alert-check):not([id*=lightbox-]) {
+    width: $dimensions !important;
+    height: $dimensions !important;
+    margin: auto;
+}

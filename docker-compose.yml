@@ -1,0 +1,130 @@
+version: '3.4'
+
+x-cache-from:
+  - &api-cache-from
+    cache_from:
+      - ${NGINX_IMAGE:-quay.io/api-platform/nginx}
+      - ${PHP_IMAGE:-quay.io/api-platform/php}
+
+x-networks:
+  - &networks
+    networks:
+      - your_network
+
+x-environments:
+  - &environments
+    environment:
+      - API_PLATFORM_CLIENT_GENERATOR_ENTRYPOINT=http://api
+      - API_PLATFORM_CLIENT_GENERATOR_OUTPUT=src
+      - REACT_APP_API_ENTRYPOINT=${HTTP_OR_SSL}api.${DOMAIN}
+      - REACT_APP_NAME=${APP_NAME}
+
+services:
+  traefik:
+    image: traefik:v2.0
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik.toml:/traefik.toml
+      - ./acme.json:/acme.json
+    <<: *networks
+
+  php:
+    build:
+      context: ./api
+      target: api_platform_php
+      <<: *api-cache-from
+    image: ${PHP_IMAGE:-quay.io/api-platform/php}
+    environment:
+      - APP_ENV=${APP_ENV}
+      - APP_NAME=${APP_NAME}
+      - APP_SECRET=${APP_SECRET}
+      - CORS_ALLOW_ORIGIN=^${HTTP_OR_SSL}(${SUBDOMAINS}.)?${DOMAIN}$$
+      - DATABASE_URL=postgres://${DB_USER}:${DB_PASS}@db/${DB_NAME}
+      - EMAIL_USER=${EMAIL_USER}
+      - JWT_PASSPHRASE=${JWT}
+      - MAILGUN_DOMAIN=${DOMAIN}
+      - MAILGUN_KEY=${EMAIL_PASS}
+      - TRUSTED_HOSTS=^(${SUBDOMAINS}\.)?${DOMAIN}$$
+    depends_on:
+      - db
+    volumes:
+      - ./api:/srv/api:rw,cached
+      - ./api/docker/php/conf.d/api-platform.dev.ini/:/usr/local/etc/php/conf.d/api-platform.ini
+    <<: *networks
+
+  api:
+    build:
+      context: ./api
+      target: api_platform_nginx
+      <<: *api-cache-from
+    image: ${NGINX_IMAGE:-quay.io/api-platform/nginx}
+    depends_on:
+      - php
+    volumes:
+      - ./api/public:/srv/api/public:ro
+    labels:
+      - traefik.http.routers.api.rule=Host(`api.${DOMAIN}`)
+    <<: *networks
+
+  db:
+    image: postgres:12-alpine
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_USER=${DB_USER}
+    volumes:
+      - db-data:/var/lib/postgresql/data:rw
+    ports:
+      - target: 5432
+        published: 5432
+        protocol: tcp
+    <<: *networks
+
+  mercure:
+    image: dunglas/mercure
+    environment:
+      - ALLOW_ANONYMOUS=1
+      - CORS_ALLOWED_ORIGINS=*
+      - DEMO=1
+      - JWT_KEY=!ChangeMe!
+      - PUBLISH_ALLOWED_ORIGINS=http://localhost:1337,https://localhost:1338
+    labels:
+      - traefik.http.routers.mercure.rule=Host(`mercure.${DOMAIN}`)
+    <<: *networks
+
+  client:
+    build:
+      context: ./client
+      cache_from:
+        - ${CLIENT_IMAGE:-quay.io/api-platform/client}
+    image: ${CLIENT_IMAGE:-quay.io/api-platform/client}
+    <<: *environments
+    volumes:
+      - ./client:/usr/src/client:rw,cached
+    labels:
+      - traefik.http.routers.client.rule=Host(`domain.com`)
+    <<: *networks
+
+  admin:
+    build:
+      context: ./admin
+      cache_from:
+        - ${ADMIN_IMAGE:-quay.io/api-platform/admin}
+    image: ${ADMIN_IMAGE:-quay.io/api-platform/admin}
+    <<: *environments
+    volumes:
+      - ./admin:/usr/src/admin:rw,cached
+    labels:
+      - traefik.http.routers.admin.rule=Host(`admin.${DOMAIN}`)
+    <<: *networks
+
+volumes:
+  db-data: {}
+
+networks:
+  your_network:
+    external: true

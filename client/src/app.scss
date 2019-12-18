@@ -1,0 +1,67 @@
+$base: 0.5;
+$colors: (
+    gray: #efefef
+);
+
+@for $i from 0 through 5 {
+    .p-#{$i} {
+        padding: $base * $i + rem !important;
+    }
+    .pt-#{$i} {
+        padding-top: $base * $i + rem !important;
+    }
+    .px-#{$i} {
+        padding-left: $base * $i + rem !important;
+        padding-right: $base * $i + rem !important;
+    }
+    .m-#{$i} {
+        margin: $base * $i + rem !important;
+    }
+    .ml-#{$i} {
+        margin-left: $base * $i + rem !important;
+    }
+}
+
+.my-auto {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.m-auto {
+    margin: auto;
+}
+
+.ml-auto {
+    margin-left: auto;
+}
+
+.d-flex {
+    display: flex !important;
+}
+
+.border-none {
+    border: none;
+}
+
+form > div > input,
+form > div > textarea,
+.btn--lg {
+    font-size: 1.5rem;
+}
+
+textarea {
+    resize: none;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.w-100 {
+    width: 100% !important;
+}
+
+.mw-0 {
+    min-width: 0 !important;
+}

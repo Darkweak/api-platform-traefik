@@ -1,0 +1,42 @@
+:root {
+    --menu-width: 22px;
+    --menu-height: 2px;
+    --transition: all 0.5s;
+}
+
+.menu-icon{
+    position: relative;
+    width: 54px;
+    height: 54px;
+}
+.menu-icon span::before,
+.menu-icon span::after,
+.menu-icon span {
+    position: absolute;
+    transition: var(--transition);
+    background-color: #FFF;
+    width: var(--menu-width);
+    height: var(--menu-height);
+    display: block;
+}
+
+
+.menu-icon span {
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.menu-icon span::before, .menu-icon span::after {
+    content: '';
+    top: 0;
+    left: 0;
+    transform: translateY(-6px);
+}
+.menu-icon span::after {
+    transform: translateY(6px);
+}
+
+.menu-icon.is-opened span { background: transparent; }
+.menu-icon.is-opened span::before { transform: translateY(0) rotate(45deg); }
+.menu-icon.is-opened span::after { transform: translateY(0) rotate(-45deg); }
