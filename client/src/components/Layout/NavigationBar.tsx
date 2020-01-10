@@ -1,16 +1,19 @@
-import React, { useContext, useState } from 'react';
-import { connexionRoutes, IRoute, navbarRoutes, loggedRoutes } from '../../routes';
+import React, { useContext, useRef, useState } from 'react';
+import { connexionRoutes, IRoute, navbarRoutes, loggedRoutes, languageRoutes } from '../../routes';
 import { Collapse } from './Navbar';
-import { RouterContext } from '../../contexts/RouterContext';
-import { ClientContext } from '../../contexts/ClientContext';
+import { ClientContext, RouterContext } from '../../contexts';
 import { NavLink } from './Navbar/NavLink';
+import './layout.css';
+import { useOutsideClick } from '../../hooks';
 
 export const NavBar = () => {
     const [open, setOpen] = useState(false);
     const { router } = useContext(RouterContext);
     const { logged } = useContext(ClientContext);
+    const ref = useRef(null);
+    useOutsideClick(ref, () => setOpen(false));
     return (
-        <>
+        <div ref={ref}>
             <input type="checkbox" id="nav--super-vertical-responsive" onChange={() => {setOpen(!open)}} checked={open}/>
             <label htmlFor="nav--super-vertical-responsive" className="bg--turqoise p-0">
                 <div className={`transition border-none menu-icon${open ? ' is-opened' : ''}`}>
@@ -27,9 +30,10 @@ export const NavBar = () => {
                             <NavLink key={index} {...{route, router}}/>
                         ))
                     }
-                    <Collapse icon="face" id="nav-collapsible-1" name="Compte" links={logged ? loggedRoutes : connexionRoutes}/>
+                    <Collapse icon="face" id="nav-collapsible-account" name="navbar.account.label" links={logged ? loggedRoutes : connexionRoutes}/>
+                    <Collapse icon="language" id="nav-collapsible-language" name="navbar.language.label" links={languageRoutes}/>
                 </nav>
             </aside>
-        </>
+        </div>
     )
 };

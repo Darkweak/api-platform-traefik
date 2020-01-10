@@ -2,15 +2,14 @@ import React, { useContext } from 'react';
 import { email, firstname, lastname, password } from './Field';
 import { Form } from './';
 import { useRedirection } from '../../hooks';
-import { ClientContext } from '../../contexts/ClientContext';
-import { FormProvider } from '../../contexts/FormContext';
+import { ClientContext, FormProvider } from '../../contexts';
 import { register } from '../../actions/user';
 
 export const RegisterForm = () => {
     const { logged } = useContext(ClientContext);
     useRedirection(logged);
     return (
-        <div className="card fade-in-from-bottom anim-delay--5">
+        <>
             <FormProvider>
                 <Form {...{
                     additionalLinks: [
@@ -28,6 +27,6 @@ export const RegisterForm = () => {
                     submitForm: register
                 }}/>
             </FormProvider>
-        </div>
+        </>
     );
 };

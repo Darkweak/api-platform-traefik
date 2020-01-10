@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { email, firstname, lastname, message, subject } from './Field';
 import { Form } from './';
-import { FormProvider } from '../../contexts/FormContext';
+import { FormProvider } from '../../contexts';
 import { BackgroundAlertDanger } from '../Alert';
 import { BackgroundAlertSuccess } from '../Alert/BackgroundAlert';
 import { contact, IContact } from '../../actions/contact';

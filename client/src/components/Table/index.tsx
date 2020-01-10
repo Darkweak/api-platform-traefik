@@ -1,6 +1,8 @@
 import React, { ChangeEvent, useContext } from 'react';
-import { ADD_SELECTED_ITEM, REMOVE_SELECTED_ITEM, TableContext, TableProvider } from '../../contexts/TableContext';
+import { ADD_SELECTED_ITEM, REMOVE_SELECTED_ITEM, TableContext, TableProvider } from '../../contexts';
 import './table.scss';
+import { RedButton } from '../Button';
+import { Icon } from '../Layout/Icon';
 
 interface ITable {
     actions?: JSX.Element|JSX.Element[],
@@ -15,14 +17,19 @@ interface ITable {
 
 export const TableComponent: React.FC<ITable> = ({ actions, data, dataKeys, dispatch, headers, items, selectable, withHeaders }) => {
     return (
-        <div className="table-responsive">
+        <div className="table-responsive card p-0">
             {
                 selectable && items && items.length ? (
-                    <div className="p-4 d-flex">
-                        <span>{items.length} ligne{items.length > 1 && 's'} sélectionnée{items.length > 1 && 's'}</span>
-                        {
-                            actions && <span className="ml-auto">{actions}</span>
-                        }
+                    <div className="p-4 d-flex bg--midnight-blue color--paper">
+                        <span className="my-auto">{items.length} ligne{items.length > 1 && 's'} sélectionnée{items.length > 1 && 's'}</span>
+                        <span className="ml-auto">
+                            <RedButton>
+                                <Icon>delete</Icon>
+                                <span className="my-auto">
+                                    Supprimer
+                                </span>
+                            </RedButton>
+                        </span>
                     </div>
                 ) : null
             }
@@ -44,7 +51,7 @@ export const TableComponent: React.FC<ITable> = ({ actions, data, dataKeys, disp
                     {
                         data.map(
                             (item: any, index: number) => (
-                                <tr key={index} className={(items && items.includes(item.id) && 'bg--teal not-hoverable color--paper') || ''}>
+                                <tr key={index} className={(items && items.includes(item.id) && 'bg--belize not-hoverable color--paper') || ''}>
                                     {
                                         selectable && (
                                             <td className="p-0 d-flex">

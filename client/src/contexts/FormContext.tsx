@@ -1,4 +1,4 @@
-import { createContext, default as React, useReducer } from 'react';
+import React, { createContext, useReducer } from 'react';
 import { IChildren } from '../components/Layout';
 
 interface IForm {

@@ -5,7 +5,7 @@ import { ContactForm } from '../Form';
 
 export const Contact: React.FC = () => {
     return (
-        <Layout pageName={`Nous contacter`} breadcrumb={[HOME, CONTACT]}>
+        <Layout pageName="pages.contact.title" breadcrumb={[HOME, CONTACT]}>
             <div className="g--10 m--1">
                 <ContactForm/>
             </div>

@@ -2,31 +2,31 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './main.css';
 import './app.scss';
-import {
-  BrowserRouter,
-  Switch,
-  Route
-} from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { createBrowserHistory } from 'history';
 import { IRoute, routes } from './routes';
-import { RouterProvider } from './contexts/RouterContext';
+import { LanguageProvider, RouterProvider } from './contexts';
 
 export const history: any = createBrowserHistory();
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Switch>
-      {
-        routes.map(
-          (route: IRoute, index: number) =>
-            <Route key={index} path={route.path} strict exact component={
-              ({...rest}: any) => <RouterProvider {...rest}>{route.component}</RouterProvider>
-            }/>
-        )
-      }
-    </Switch>
-  </BrowserRouter>
-  ,
-  document.getElementById('root')
+    <LanguageProvider>
+        <BrowserRouter>
+            <Switch>
+                {
+                    routes.map(
+                        (route: IRoute, index: number) =>
+                            <Route key={index} path={route.path} strict exact component={
+                                ({...rest}: any) => <RouterProvider {...rest}>
+                                    {route.component}
+                                </RouterProvider>
+                            }/>
+                    )
+                }
+            </Switch>
+        </BrowserRouter>
+    </LanguageProvider>
+    ,
+    document.getElementById('root')
 );
 

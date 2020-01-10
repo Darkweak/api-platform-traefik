@@ -1,12 +1,17 @@
-import React from 'react';
-import { Layout } from '../Layout';
+import React, { useContext } from 'react';
+import { ClientContext } from '../../contexts';
+import { useRedirection } from '../../hooks';
 import { HOME, LOGIN } from '../Breadcrumb';
 import { LoginForm } from '../Form/LoginForm';
+import { Layout } from '../Layout';
 
 export const Login = () => {
+    const { logged } = useContext(ClientContext);
+    useRedirection(logged);
+
     return (
-        <Layout pageName={`Connexion`} breadcrumb={[HOME, LOGIN]}>
-            <div className="g--4 m--4 g-m--8 m-m--2 g-s--10 m-s--1">
+        <Layout pageName={`pages.login.title`} breadcrumb={[ HOME, LOGIN ]}>
+            <div className="g--6 m--3 g-m--8 m-m--2 g-s--10 m-s--1 g-t--12 m-t--0 fade-in-from-bottom card">
                 <LoginForm/>
             </div>
         </Layout>

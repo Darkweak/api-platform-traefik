@@ -1,14 +1,8 @@
-import React from 'react';
-import { Layout } from '../Layout';
-import { HOME, REGISTER } from '../Breadcrumb';
-import { RegisterForm } from '../Form/RegisterForm';
+import React, { useContext } from 'react';
+import { Connection, getClient, getRegister } from '../Connection';
+import { ClientContext } from '../../contexts';
 
 export const Register = () => {
-    return (
-        <Layout pageName={`Inscription`} breadcrumb={[HOME, REGISTER]}>
-            <div className="g--8 m--2 g-m--10 m-m--1">
-                <RegisterForm/>
-            </div>
-        </Layout>
-    )
+    const { updateClient } = useContext(ClientContext);
+    return <Connection firstForm={getRegister()} secondForm={getClient(updateClient)} page={'register'}/>
 };

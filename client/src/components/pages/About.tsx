@@ -51,7 +51,7 @@ const data = [
 
 export const About: React.FC = () => {
     return (
-        <Layout pageName={`Nous contacter`} breadcrumb={[HOME, ABOUT]}>
+        <Layout pageName='pages.about.title' breadcrumb={[HOME, ABOUT]}>
             <div className="g--10 m--1">
                 <Table {...{data, headers, selectable: true, withHeaders: true}}/>
             </div>

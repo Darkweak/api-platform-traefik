@@ -65,3 +65,19 @@ textarea {
 .mw-0 {
     min-width: 0 !important;
 }
+
+.transition {
+    transition: all 0.5s;
+}
+
+.hidden {
+    opacity: 0 !important;
+}
+
+.visible {
+    opacity: 1 !important;
+}
+
+.translate-top {
+    transform: translateY(6px);
+}

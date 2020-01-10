@@ -1,7 +1,7 @@
 import React, { useContext, useRef } from 'react';
 import { IField } from './Field';
 import { Link } from 'react-router-dom';
-import { FormContext } from '../../contexts/FormContext';
+import { FormContext } from '../../contexts';
 import { Spinner } from '../Loader';
 
 export interface ILink {
@@ -9,7 +9,7 @@ export interface ILink {
     path: string,
 }
 
-interface IForm {
+export interface IForm {
     additionalLinks?: ILink[],
     buttonText?: string,
     fields: IField[],

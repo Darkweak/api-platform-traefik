@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import { RouterContext } from '../contexts/RouterContext';
+import { RouterContext } from '../contexts';
 
 export const useRedirection = (condition: boolean, pathname: string = '/') => {
     const { router } = useContext(RouterContext);
