@@ -3,7 +3,7 @@ import { email, firstname, lastname, password } from './Field';
 import { Form } from './';
 import { useRedirection } from '../../hooks';
 import { ClientContext, FormProvider } from '../../contexts';
-import { register } from '../../actions/user';
+import { User } from '../../actions';
 
 export const RegisterForm = () => {
     const { logged } = useContext(ClientContext);
@@ -24,7 +24,8 @@ export const RegisterForm = () => {
                         email(),
                         password()
                     ],
-                    submitForm: register
+                    submitForm: new User().register,
+                    type: 'large',
                 }}/>
             </FormProvider>
         </>

@@ -1,35 +1,36 @@
-import React, { useContext } from 'react';
-import { NavBar } from './NavigationBar';
+import React from 'react';
+import { AnimatedNavbar, NavBar } from './NavigationBar';
 import './layout.css';
 import { Breadcrumb, IBreadcrumb } from '../Breadcrumb';
 import { Footer } from './Footer';
-import { LanguageContext } from '../../contexts';
+
+export * from './Icon';
 
 export interface IChildren {
     children: JSX.Element|JSX.Element[],
 }
 
-export interface IClassNames {
-    classnames?: string,
+export interface IClassName {
+    className?: string,
 }
 
 interface ILayout {
-    pageName: string,
+    animatedNavbar?: boolean,
 }
 
-export const Layout = ({ breadcrumb, children, pageName }: IBreadcrumb & IChildren & ILayout) => {
-    const { translate } = useContext(LanguageContext);
+export const Layout: React.FC<IBreadcrumb & ILayout> = ({ animatedNavbar, breadcrumb, children }) => {
     return (
         <>
-            <NavBar/>
-            <main className="g--10 g-m--12 m--2 m-m--0 no-margin-vertical">
-                <header className="no-margin">
-                    <h1 className="m--1 g--10 fade-in-from-bottom">{ translate(pageName) }</h1>
-                </header>
+            <main>
+                {
+                    animatedNavbar ?
+                        <AnimatedNavbar fixed/> :
+                        <NavBar/>
+                }
                 { breadcrumb && <Breadcrumb {...{ breadcrumb }}/> }
                 { children }
-                <Footer/>
             </main>
+            <Footer/>
         </>
     )
 };

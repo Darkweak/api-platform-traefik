@@ -1,13 +1,11 @@
 import React from 'react';
-import { Welcome } from './components/pages';
-import { Contact } from './components/pages';
-import { Login } from './components/pages';
-import { Register } from './components/pages';
-import { logout } from './actions/user';
-import { About } from './components/pages';
+import { Contact, Login, Register, Search, Welcome } from './components/pages';
 import { AllowedLanguages } from './contexts';
+import { IClassName } from './components/Layout';
+import { User } from './actions';
 
-export interface IRoute {
+export interface IRoute extends IClassName {
+    children?: IRoute[],
     component: JSX.Element,
     changeLanguage?: (setSelectedLanguage: (language: AllowedLanguages) => void) => void,
     handleClick?: ((...v: any) => void)|boolean,
@@ -15,6 +13,7 @@ export interface IRoute {
     name: string,
     path: string,
     strict?: boolean,
+    type?: 'button'|'dropdown',
 }
 
 export const connexionRoutes: IRoute[] = [
@@ -54,7 +53,7 @@ export const languageRoutes: IRoute[] = [
 export const loggedRoutes: IRoute[] = [
     {
         component: <div/>,
-        handleClick: (updateClient: (v?: any) => void, router: any) => { logout(updateClient); router && router.history.push('/') },
+        handleClick: (updateClient: (v?: any) => void, router: any) => { new User().logout({ updateClient }); router && router.history.push('/') },
         icon: 'arrow_back',
         name: 'account.logout',
         path: '',
@@ -70,16 +69,26 @@ export const navbarRoutes: IRoute[] = [
     },
     {
         component: <Contact/>,
-        icon: 'send',
+        icon: 'envelope',
         name: 'contact',
         path: '/contact',
     },
     {
-        component: <About/>,
-        icon: 'help',
-        name: 'about',
-        path: '/about',
+        children: languageRoutes,
+        component: <div/>,
+        icon: '',
+        name: 'language',
+        path: '/',
+        type: 'dropdown',
     },
+    {
+        className: 'p-2',
+        component: <Search/>,
+        icon: 'search',
+        name: 'search',
+        path: '/search',
+        type: 'button',
+    }
 ];
 
 export const routes: IRoute[] = [

@@ -3,11 +3,10 @@ import { IChildren } from '../components/Layout';
 import { languages } from '../i18n/i18n';
 import { ClientProvider } from './ClientContext';
 
-interface IPageTranslations {
-    title: string
-}
-
 interface ITranslations {
+    app: {
+        title: string
+    };
     navbar: {
         account: {
             label: string;
@@ -15,7 +14,6 @@ interface ITranslations {
             logout: string;
             register: string;
         };
-        about: string;
         contact: string;
         home: string;
         language: {
@@ -23,13 +21,6 @@ interface ITranslations {
             fr: string,
             en: string
         }
-    };
-    pages: {
-        about: IPageTranslations;
-        contact: IPageTranslations;
-        home: IPageTranslations;
-        login: IPageTranslations;
-        register: IPageTranslations;
     };
 }
 

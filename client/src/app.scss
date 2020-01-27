@@ -1,24 +1,370 @@
 $base: 0.5;
 $colors: (
-    gray: #efefef
+    gray: #efefef,
+    primary: #f03d4d,
+    secondary: #2972fa,
+    link: #5e5cc7,
+    dark: #363636,
+    light: #f6f9fc,
+    danger: #fb4143,
+    warning: #fab633,
+    success: #0dd157,
+);
+$text-align: (
+    center,
+    justify,
+    left,
+    right,
+);
+$directions: (
+    top: bottom,
+    bottom: top,
+    right: left,
+    left: right,
+);
+$positions: (
+    absolute,
+    fixed,
+    relative,
+);
+$x-axis: (
+    left,
+    right,
+);
+$breakpooints: (
+    mobile: 0,
+    tablet: 769,
+    desktop: 1024,
 );
 
-@for $i from 0 through 5 {
+@media screen and (min-width: map_get($breakpooints, tablet) + px) {
+    @each $direction, $opposite in $directions {
+        @each $axis in $x-axis {
+            @each $color, $value in $colors {
+                .skew-#{$direction}-#{$axis}-#{$color}::after {
+                    #{$direction}: -5rem;
+                    content: '';
+                    z-index: 0;
+                    position: absolute;
+                    height: 0;
+                    border-#{$opposite}: 5em solid $value;
+                    border-#{$axis}: 100vw solid transparent;
+                }
+            }
+        }
+    }
+}
+
+#splash-img{
+    background: url('https://magazine.bellesdemeures.com/sites/default/files/styles/manual_crop_1170x600/public/article/image/appartement-luxe_0.jpg?itok=u9U7zQCI');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.hero-body {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.btn, button {
+    font-family: inherit;
+}
+
+.header {
+    transition: all .3s;
+}
+
+.header-clear-mod {
+    background-color: transparent;
+    box-shadow: none;
+    opacity: 0.9;
+    padding: 1.5rem;
+}
+
+.header-fill {
+    background-color: rgba(0, 0, 0, 0.87);
+}
+
+.translucent {
+    background: rgba(0, 0, 0, 0.87);
+}
+
+.header-clear-mod a {
+    color: #fff;
+}
+
+.header .nav-item button a:hover {
+    color: #fff;
+}
+
+.header .nav-item a .icon {
+    font-size: inherit;
+}
+
+.header .btn .btn-accent {
+    position: inherit;
+}
+
+section {
+    padding-bottom: 2rem;
+}
+
+.content h6 {
+    line-height: 2.25rem;
+}
+
+.font-normal {
+    font-weight: 400;
+}
+
+pre:not(.get-cirrus) > code {
+    padding: 1.5rem 1.5rem 1rem !important;
+    background: #f6f8fa;
+}
+
+.hljs {
+    max-height: 750px;
+}
+
+/* Colors */
+.frame {
+    box-shadow: 0 0.2rem 1.25rem 0 rgba(27, 30, 36, 0.07);
+    margin: 1rem 0;
+}
+
+.color-panel {
+    transition-duration: 86ms;
+}
+
+.color-panel:hover {
+    box-shadow: 0 3rem 3rem -1.25rem rgba(10,10,10,.1);
+    -webkit-transform: translateY(-.5rem);
+    transform: translateY(-.5rem);
+}
+
+/* Fonts */
+.desc {
+    font-size: 11px;
+    font-family: 'Nunito Sans';
+    margin-left: 10px;
+    vertical-align: bottom;
+}
+
+.frame h2 {
+    word-break: break-all;
+}
+
+/* Buttons */
+.btn-primary.hover,
+.btn-primary.focus {
+    background-color: #d62939;
+}
+
+.btn-primary.focus {
+    box-shadow: 0 0 0 0.2rem rgba(240, 61, 76, .5)
+}
+
+._shadow {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Checkboxes */
+.form-ext-control {
+    margin-bottom: 0.75rem;
+}
+
+/* Tooltips */
+#tooltips button {
+    text-align: center;
+}
+
+.doc-link {
+    font-weight: 300;
+    margin-right: .5rem;
+}
+
+/* Footer */
+footer ul a {
+    display: block;
+}
+
+footer h3 {
+    letter-spacing: 6px;
+}
+
+footer .divider {
+    background: rgba(238, 238, 238, 0.2);
+    height: 1px;
+}
+
+footer p .fa.fa-heart {
+    color: #E90606;
+    margin: 0 3px;
+    animation: pound 0.35s infinite alternate;
+    -webkit-animation: pound 0.35s infinite alternate;
+    vertical-align: baseline;
+}
+
+/* Documentation Page */
+.flex-wrap {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.doc-tile {
+    border-radius: .25rem;
+    color: var(--cirrus-fg);
+    cursor: pointer;
+    height: 100%;
+    padding: 2.5rem 2rem;
+    transition: all .2s;
+    user-select: none;
+
+    .lead {
+        font-size: 1.175rem;
+        line-height: 2rem;
+        margin-top: .5rem;
+    }
+
+    &:hover {
+        background-color: rgba(0,0,0,.05);
+        color: #3273dc;
+        transition: all .2s;
+    }
+
+    &:active {
+        background-color: rgba(0,0,0,.10);
+        color: #3273dc;
+        transform: scale(.98);
+    }
+}
+
+/* Colors */
+.color-circle {
+    border-radius: 50%;
+    margin: .5rem;
+    padding: 1rem;
+}
+
+pre.get-cirrus {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: space-between;
+    border-radius: .3rem;
+    background: var(--cirrus-dark) !important;
+    margin: 1rem 0;
+}
+
+pre.get-cirrus code {
+    padding: 1rem;
+}
+
+/* Copy button */
+pre .copy {
+    margin: auto 1rem;
+    color: #f03d4d;
+    padding: 0.25rem 0.75rem;
+    border-radius: .3rem;
+    font-weight: 700;
+    box-sizing: border-box;
+    user-select: none;
+    cursor: pointer;
+    transition: all .2s;
+}
+
+pre .copy:hover {
+    background: #f03d4d;
+    color: #fff;
+    transition: all .2s;
+}
+
+/* Grid */
+._grid-ex {
+    background-color: #eee;
+    border-radius: .25rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .nav-item.has-sub .list-dropdown .btn-group button:not(.btn-dropdown) {
+        flex-grow: 1;
+    }
+}
+
+@for $i from 0 through 6 {
+    .clamped-#{$i} {
+        -webkit-line-clamp: $i;
+    }
+
     .p-#{$i} {
         padding: $base * $i + rem !important;
     }
     .pt-#{$i} {
-        padding-top: $base * $i + rem !important;
+        padding-top: $base * $i + rem;
+    }
+    .pb-#{$i} {
+        padding-bottom: $base * $i + rem;
     }
     .px-#{$i} {
-        padding-left: $base * $i + rem !important;
-        padding-right: $base * $i + rem !important;
+        padding-left: $base * $i + rem;
+        padding-right: $base * $i + rem;
     }
     .m-#{$i} {
-        margin: $base * $i + rem !important;
+        margin: $base * $i + rem;
+    }
+    .mx-#{$i} {
+        margin-left: $base * $i + rem;
+        margin-right: $base * $i + rem;
+    }
+    .my-#{$i} {
+        margin-top: $base * $i + rem;
+        margin-bottom: $base * $i + rem;
     }
     .ml-#{$i} {
-        margin-left: $base * $i + rem !important;
+        margin-left: $base * $i + rem;
+    }
+    .pl-#{$i} {
+        padding-left: $base * $i + rem;
+    }
+
+    .z-#{$i}{
+        z-index: $i;
+    }
+
+    .py-#{$i} {
+        padding-top: $base * $i + rem;
+        padding-bottom: $base * $i + rem;
+    }
+
+    .px-#{$i} {
+        padding-left: $base * $i + rem;
+        padding-right: $base * $i + rem;
+    }
+
+    .fw-#{$i} {
+        font-weight: $i * 100;
+    }
+}
+
+@each $text in $text-align {
+    .text-#{$text} {
+        text-align: $text;
+    }
+}
+
+@each $color, $value in $colors {
+    .bg-#{$color} {
+        background-color: $value;
+    }
+    .text-#{$color} {
+        color: $value;
+    }
+}
+
+@each $position in $positions {
+    .position-#{$position} {
+        position: $position;
     }
 }
 
@@ -39,23 +385,20 @@ $colors: (
     display: flex !important;
 }
 
+.d-block {
+    display: block !important;
+}
+
 .border-none {
     border: none;
 }
 
-form > div > input,
-form > div > textarea,
-.btn--lg {
+textarea.input-large {
     font-size: 1.5rem;
 }
 
 textarea {
     resize: none;
-}
-
-.row {
-    display: flex;
-    flex-wrap: wrap;
 }
 
 .w-100 {
@@ -80,4 +423,32 @@ textarea {
 
 .translate-top {
     transform: translateY(6px);
+}
+
+.rounded-0 {
+    border-radius: 0;
+}
+
+.text-white {
+    color: white !important;
+}
+
+.clamped {
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+#root {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.pointer {
+    cursor: pointer;
 }

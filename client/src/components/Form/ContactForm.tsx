@@ -4,24 +4,24 @@ import { Form } from './';
 import { FormProvider } from '../../contexts';
 import { BackgroundAlertDanger } from '../Alert';
 import { BackgroundAlertSuccess } from '../Alert/BackgroundAlert';
-import { contact, IContact } from '../../actions/contact';
+import { Contact, IContact } from '../../actions';
 
 export const ContactForm = () => {
-    const [hasError, setError] = useState(false);
-    const [hasSent, setSent] = useState(false);
+    const [ hasError, setError ] = useState<boolean>(false);
+    const [ hasSent, setSent ] = useState<boolean>(false);
 
     return (
-        <div className="card fade-in-from-bottom anim-delay--5">
+        <>
             {
                 hasError ?
-                    <div className="fade-in-from-bottom">
-                        <BackgroundAlertDanger>
+                    <div className="fade-in-from-top">
+                        <BackgroundAlertDanger className="py-3">
                             <span>Une erreur est survenue, veuillez réessayer plus tard</span>
                         </BackgroundAlertDanger>
                     </div> :
                     hasSent ?
-                        <div className="fade-in-from-bottom">
-                            <BackgroundAlertSuccess>
+                        <div className="fade-in-from-top">
+                            <BackgroundAlertSuccess className="py-3">
                                 <span>Votre message a bien été envoyé!</span>
                             </BackgroundAlertSuccess>
                         </div> : ''
@@ -30,15 +30,21 @@ export const ContactForm = () => {
                 <Form {...{
                     buttonText: 'Envoyer',
                     fields: [
-                        lastname('g--6 g-t--12'),
-                        firstname('g--6 g-t--12'),
+                        lastname('col-6'),
+                        firstname('col-6'),
                         email(),
                         subject(),
                         message()
                     ],
-                    submitForm: (data: IContact, ref) => contact(data, setError, setSent, ref)
+                    submitForm: (data: IContact, ref) => new Contact().send({
+                        data,
+                        setError,
+                        setSent,
+                        ref,
+                    }),
+                    type: 'large',
                 }}/>
             </FormProvider>
-        </div>
+        </>
     )
 };

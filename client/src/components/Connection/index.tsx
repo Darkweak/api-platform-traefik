@@ -1,11 +1,10 @@
 import React, { useContext, useState } from 'react';
-import { FlippedForm } from '../Form/FlippedForm';
 import { HOME, LOGIN, REGISTER } from '../Breadcrumb';
 import { Layout } from '../Layout';
-import { ILoginUser, login, register } from '../../actions/user';
+import { ILoginUser, User } from '../../actions';
 import { useRedirection } from '../../hooks';
 import { ClientContext } from '../../contexts';
-import { IForm } from '../Form';
+import { FlippedForm, IForm } from '../Form';
 import { email, firstname, lastname, password, username } from '../Form/Field';
 
 interface IConnection {
@@ -25,7 +24,7 @@ export const getClient = (updateClient: any): IForm => ({
         username(),
         password()
     ],
-    submitForm: (data: ILoginUser, ref: any) => login(data, updateClient, ref)
+    submitForm: (data: ILoginUser, ref: any) => new User().login({data, updateClient, ref})
 });
 
 export const getRegister = (): IForm => ({
@@ -41,7 +40,7 @@ export const getRegister = (): IForm => ({
         email(),
         password()
     ],
-    submitForm: register
+    submitForm: new User().register
 });
 
 const getSelectedPage = (value: boolean, page: 'login'|'register'): 'login'|'register' => {
@@ -60,7 +59,7 @@ export const Connection: React.FC<IConnection> = ({ children, firstForm, page, s
     const flipped = page === selectedPage;
 
     return (
-        <Layout pageName={`pages.${selectedPage}.title`} breadcrumb={[ HOME, 'login' === selectedPage ? LOGIN : REGISTER ]}>
+        <Layout breadcrumb={[ HOME, 'login' === selectedPage ? LOGIN : REGISTER ]}>
             <div className="g--6 m--3 g-m--8 m-m--2 g-s--10 m-s--1 g-t--12 m-t--0 fade-in-from-bottom anim-delay--5">
                 <FlippedForm {...{
                     id: 'connexion',

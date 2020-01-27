@@ -1,79 +1,55 @@
-import axios from 'axios';
-
-const DELETE = 'DELETE';
-const GET = 'GET';
-const PATCH = 'PATCH';
-const POST = 'POST';
-const PUT = 'PUT';
-
-interface IAPIConnection {
-    method?: 'GET'|'POST'|'PUT'|'PATCH'|'DELETE',
-}
+import axios, { AxiosInstance } from 'axios';
+import { getToken } from '../helpers';
 
 interface IData {
     data?: any,
 }
 
 interface IEndpoint {
-    endpoint: string
+    endpoint?: string
 }
 
-interface IHeaders {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-}
-
-const APIConnection = async ({
-    data,
-    endpoint,
-    method = 'GET',
-}: IAPIConnection & IData & IEndpoint) => {
-    const headers: IHeaders = {
+const getHeaders = (): Headers => {
+    const headers = new Headers({
+        Accept: 'application/json',
         'Content-Type': 'application/json',
-        Accept: 'application/json'
-    };
-    return axios({
-        url: `${process.env.REACT_APP_API_ENTRYPOINT}${endpoint}`,
-        data: data || null,
-        headers,
-        method,
     });
+
+    if (getToken()) {
+        headers.append('Authorization', `Bearer ${ getToken() }`)
+    }
+
+    return headers;
 };
 
-export const deleteRequest = async ({ endpoint }: IEndpoint) => {
-    return APIConnection({
-        endpoint,
-        method: DELETE,
-    })
-};
+export abstract class APIConnection {
+    protected endpoint: string = '';
+    protected baseUrl: string = process.env.REACT_APP_API_ENTRYPOINT || '';
 
-export const getRequest = async ({ endpoint }: IEndpoint) => {
-    return APIConnection({
-        endpoint,
-        method: GET,
-    })
-};
+    private request(): AxiosInstance {
+        return axios.create({
+            baseURL: this.baseUrl,
+            headers: getHeaders(),
+        });
+    }
 
-export const patchRequest = async ({ data, endpoint }: IData & IEndpoint) => {
-    return APIConnection({
-        endpoint,
-        method: PATCH,
-        data,
-    })
-};
+    protected async deleteRequest({ endpoint }: IEndpoint) {
+        return this.request().delete(`${ this.endpoint }${ endpoint || '' }`)
+    }
 
-export const postRequest = async ({ data, endpoint }: IData & IEndpoint) => {
-    return APIConnection({
-        endpoint,
-        method: POST,
-        data,
-    })
-};
+    protected async getRequest({ endpoint = '' }: IEndpoint) {
+        return this.request().get(`${ this.endpoint }${ endpoint }`)
+    }
 
-export const putRequest = async ({ data, endpoint }: IData & IEndpoint) => {
-    return APIConnection({
-        endpoint,
-        method: PUT,
-        data,
-    })
-};
+    protected async patchRequest({ data, endpoint = '' }: IData & IEndpoint) {
+        return this.request().patch(`${ this.endpoint }${ endpoint }`, JSON.stringify(data));
+    }
+
+    protected async postRequest({ data, endpoint = '' }: IData & IEndpoint) {
+        return this.request().post(`${ this.endpoint }${ endpoint }`, JSON.stringify(data));
+    }
+
+    protected async putRequest({ data, endpoint }: IData & IEndpoint) {
+        return this.request().put(`${ this.endpoint }${ endpoint || '' }`, JSON.stringify(data));
+    }
+}

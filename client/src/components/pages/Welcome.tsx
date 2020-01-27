@@ -1,71 +1,99 @@
 import React from 'react';
-import { Layout } from '../Layout';
-import { HOME } from '../Breadcrumb';
-import { FadeInFromBottom } from '../Visible';
+import { Icon, Layout } from '../Layout';
+import { BounceIn, FadeInFromBottom } from '../Visible';
+import { ContactForm } from '../Form';
+import { Link } from 'react-router-dom';
+
+interface ITile {
+    description: string;
+    icon: string;
+    title: string;
+}
+
+const tiles: ITile[] = [
+    {
+        description: 'Le service s\'appuie sur les résultats des différents sites comme Seloger, Bienici ou encore Paruvendu pour ne citer que les sites les plus connus',
+        icon: 'box-full',
+        title: 'Complet'
+    },
+    {
+        description: 'Nous assurons votre anonymat pour éviter de vous faire tracker et éviter de recevoir des tas d\'emails indésirables à la suite de vos recherches',
+        icon: 'user-secret',
+        title: 'Anonyme'
+    },
+    {
+        description: 'Créez votre dossier une seule fois et envoyez-le à autant de fois que vous le souhaitez. Une fois que ce dossier est réalisé vous n\'avez plus qu\'à sélectionner des appartements pour l\'envoyer',
+        icon: 'compress-arrows-alt',
+        title: 'Centralisation'
+    },
+    {
+        description: 'Un service 100% gratuit, afin de permettre à quiconque de pouvoir l\'utiliser',
+        icon: 'euro-sign',
+        title: 'Gratuit'
+    }
+];
 
 export const Welcome: React.FC = () => {
     return (
-        <Layout pageName='pages.home.title' breadcrumb={[HOME]}>
-            <div className="g--10 m--1">
-                <div className="g--12">
-                    <h3>Download</h3>
-                    <p>Download the framework from Github.</p>
-                    <a href="https://github.com/mildrenben/surface/archive/v1.02.zip" className="btn--raised btn--river">Download
-                        SCSS</a>
-                </div>
-                <FadeInFromBottom classnames={'container'} delay={1}>
-                    <div className="card g--4">
-                        One
-                    </div>
-                    <div className="card g--4 nudge--left nudge--right">
-                        Two
-                    </div>
-                    <div className="card g--4">
-                        Three
-                    </div>
-                </FadeInFromBottom>
-                <div className="g--12">
-                    <h3>The Grid</h3>
-                    <p>Become aquainted with the grid system and how it functions. <a href="docs/grid.html">Read the
-                        documentation.</a></p>
-                </div>
-                <div className="container">
-                    <FadeInFromBottom classnames="card g--4" delay={1}>
-                        One
-                    </FadeInFromBottom>
-                    <FadeInFromBottom classnames="card g--4 nudge--left nudge--right" delay={2}>
-                        Two
-                    </FadeInFromBottom>
-                    <FadeInFromBottom classnames="card g--4" delay={3}>
-                        Three
+        <Layout animatedNavbar>
+            <div id="splash-img" className="hero fullscreen hero-img parallax-img">
+                <div className="hero-body">
+                    <FadeInFromBottom className="content u-text-center" delay={2}>
+                        <h1 className="uppercase white title">Trouve ton appart'</h1>
+                        <div className="btn-container">
+                            <Link to='search'>
+                                <button className="btn-primary outline btn-animated m-auto">
+                                    <h4>
+                                        <i className="fas fa-chevron-right"/>
+                                        <i className="fas fa-chevron-right"/> Commencer <i className="fas fa-chevron-left"/>
+                                        <i className="fas fa-chevron-left"/>
+                                    </h4>
+                                </button>
+                            </Link>
+                        </div>
                     </FadeInFromBottom>
                 </div>
-                <div className="g--12">
-                    <h3>Documentation</h3>
-                    <p>Read through the documentation of the components.</p>
+            </div>
+            <div className="panel">
+                <div className="content z-1">
+                    <h2 className="text-center">
+                        Les avantages du service
+                    </h2>
+                    <div className="row">
+                        {
+                            tiles.map((tile: ITile, key: number) => (
+                                <BounceIn {...{
+                                    className: 'col-6 pb-2',
+                                    key,
+                                }}>
+                                    <div className="tile doc-tile">
+                                        <div className="tile__container text-justify">
+                                                <span className="icon d-flex">
+                                                    <Icon {...{
+                                                        className: 'large m-auto',
+                                                        icon: tile.icon,
+                                                    }}/>
+                                                    <h4 className="tile__title pl-1">{ tile.title }</h4>
+                                                </span>
+                                            <p className="tile__subtitle lead">
+                                                { tile.description }
+                                            </p>
+                                        </div>
+                                    </div>
+                                </BounceIn>
+                            ))
+                        }
+                    </div>
                 </div>
-                <div className="g--12">
-                    <h3>Variables</h3>
-                    <p>Set the variables to your liking in the _variables file. Things like the color scheme, amount of grid
-                        columns and spacing are yours to freely alter.</p>
-                </div>
-                <div className="g--12">
-                    <h3>Gulp</h3>
-                    <p>This step is optional. If you're familiar with <a href="http://gulpjs.com/">Gulp.js</a>, install the
-                        dependencies outline in the gulpfile and use Gulp to compile your SCSS.</p>
-                </div>
-                <div className="g--12">
-                    <h3>Link to the CSS</h3>
-                    <p>Once you've had a play with the variables, link to your CSS file from your HTML file.</p>
-                    <pre>
-					<code className="lang-html">
-&lt;link href=&quot;/css/surface_styles.css&quot;/ rel=&quot;stylesheet&quot;&gt;
-					</code>
-				</pre>
-                </div>
-                <div className="g--12">
-                    <h3>Build!</h3>
-                    <p>That's it! Go forth and build the website of your dreams!</p>
+            </div>
+            <div className="panel bg-primary skew-top-left-primary position-relative">
+                <div className="content">
+                    <h2 className="text-center text-light">
+                        Contact
+                    </h2>
+                    <FadeInFromBottom className='card'>
+                        <ContactForm/>
+                    </FadeInFromBottom>
                 </div>
             </div>
         </Layout>

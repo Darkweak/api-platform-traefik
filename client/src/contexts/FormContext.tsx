@@ -4,17 +4,27 @@ import { IChildren } from '../components/Layout';
 interface IForm {
     isLoading: boolean,
     dispatch?: any,
+    values?: any,
 }
 
 const defaultValue: IForm = {
     isLoading: false,
+    values: {},
 };
 
-function reducer(state: IForm, action: any) {
-    switch (action.type) {
+function reducer(state: IForm, { payload, type }: any) {
+    switch (type) {
         case 'SET_LOADING':
             return {
-                isLoading: action.payload
+                ...state,
+                isLoading: payload
+            };
+        case 'SET_VALUE':
+            let values = state.values;
+            values[payload.name] = payload.value;
+            return {
+                ...state,
+                values
             };
         default:
             return state;

@@ -1,5 +1,4 @@
 import React from 'react';
-import { ABOUT, HOME } from '../Breadcrumb';
 import { Layout } from '../Layout';
 import { Table } from '../Table';
 
@@ -51,7 +50,7 @@ const data = [
 
 export const About: React.FC = () => {
     return (
-        <Layout pageName='pages.about.title' breadcrumb={[HOME, ABOUT]}>
+        <Layout>
             <div className="g--10 m--1">
                 <Table {...{data, headers, selectable: true, withHeaders: true}}/>
             </div>

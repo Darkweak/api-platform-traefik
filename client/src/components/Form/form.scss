@@ -1,0 +1,4 @@
+.nav-item .dropdown-menu:not(.dropdown-shown) {
+    opacity: 0;
+    pointer-events: none;
+}

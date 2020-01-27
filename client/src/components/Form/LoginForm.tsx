@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { password, username } from './Field';
 import { Form } from './';
-import { ILoginUser, login } from '../../actions/user';
+import { ILoginUser, User } from '../../actions';
 import { ClientContext, FormProvider } from '../../contexts';
 import { BackgroundAlertWarning } from '../Alert';
 import { useRedirection } from '../../hooks';
@@ -32,7 +32,8 @@ export const LoginForm = () => {
                         username(),
                         password()
                     ],
-                    submitForm: (data: ILoginUser, ref: any) => login(data, updateClient, ref)
+                    submitForm: (data: ILoginUser, ref: any) => new User().login({data, updateClient, ref}),
+                    type: 'large',
                 }}/>
             </FormProvider>
         </>

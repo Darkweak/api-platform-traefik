@@ -16,22 +16,10 @@ x-environments:
     environment:
       - API_PLATFORM_CLIENT_GENERATOR_ENTRYPOINT=http://api
       - API_PLATFORM_CLIENT_GENERATOR_OUTPUT=src
-      - REACT_APP_API_ENTRYPOINT=${HTTP_OR_SSL}api.${DOMAIN}
+      - REACT_APP_API_ENTRYPOINT=${HTTP_OR_SSL}api-${DOMAIN}
       - REACT_APP_NAME=${APP_NAME}
 
 services:
-  traefik:
-    image: traefik:v2.0
-    ports:
-      - "80:80"
-      - "443:443"
-      - "8080:8080"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./traefik.toml:/traefik.toml
-      - ./acme.json:/acme.json
-    <<: *networks
-
   php:
     build:
       context: ./api
@@ -42,13 +30,13 @@ services:
       - APP_ENV=${APP_ENV}
       - APP_NAME=${APP_NAME}
       - APP_SECRET=${APP_SECRET}
-      - CORS_ALLOW_ORIGIN=^${HTTP_OR_SSL}(${SUBDOMAINS}.)?${DOMAIN}$$
+      - CORS_ALLOW_ORIGIN=^${HTTP_OR_SSL}(${SUBDOMAINS}-)?${DOMAIN}$$
       - DATABASE_URL=postgres://${DB_USER}:${DB_PASS}@db/${DB_NAME}
       - EMAIL_USER=${EMAIL_USER}
       - JWT_PASSPHRASE=${JWT}
       - MAILGUN_DOMAIN=${DOMAIN}
       - MAILGUN_KEY=${EMAIL_PASS}
-      - TRUSTED_HOSTS=^(${SUBDOMAINS}\.)?${DOMAIN}$$
+      - TRUSTED_HOSTS=^(${SUBDOMAINS}-)?${DOMAIN}$$
     depends_on:
       - db
     volumes:
@@ -67,7 +55,7 @@ services:
     volumes:
       - ./api/public:/srv/api/public:ro
     labels:
-      - traefik.http.routers.api.rule=Host(`api.${DOMAIN}`)
+      - traefik.frontend.rule=Host:api-${DOMAIN}
     <<: *networks
 
   db:
@@ -93,7 +81,7 @@ services:
       - JWT_KEY=!ChangeMe!
       - PUBLISH_ALLOWED_ORIGINS=http://localhost:1337,https://localhost:1338
     labels:
-      - traefik.http.routers.mercure.rule=Host(`mercure.${DOMAIN}`)
+      - traefik.frontend.rule=Host:mercure-${DOMAIN}
     <<: *networks
 
   client:
@@ -106,7 +94,7 @@ services:
     volumes:
       - ./client:/usr/src/client:rw,cached
     labels:
-      - traefik.http.routers.client.rule=Host(`domain.com`)
+      - traefik.frontend.rule=Host:${DOMAIN}
     <<: *networks
 
   admin:
@@ -119,7 +107,7 @@ services:
     volumes:
       - ./admin:/usr/src/admin:rw,cached
     labels:
-      - traefik.http.routers.admin.rule=Host(`admin.${DOMAIN}`)
+      - traefik.frontend.rule=Host:admin-${DOMAIN}
     <<: *networks
 
 volumes:

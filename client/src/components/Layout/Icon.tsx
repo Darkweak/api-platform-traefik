@@ -1,7 +1,11 @@
 import React from 'react';
 
-export const Icon: React.FC = ({ children }) => (
-    <i className="material-icons my-auto">
-        { children }
-    </i>
-)
+interface IIcon {
+    className?: string;
+    icon: string;
+    type?: 'fab'|'far';
+}
+
+export const Icon: React.FC<IIcon> = ({ className, icon, type = 'fas' }) => (
+    <i className={`fa-wrapper ${ type } fa-${ icon } ${ className || '' }`}/>
+);

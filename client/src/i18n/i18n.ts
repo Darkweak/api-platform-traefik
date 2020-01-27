@@ -2,8 +2,10 @@ import { ILanguages } from '../contexts';
 
 export const languages: ILanguages = {
     en: {
+        app: {
+            title: 'Find your place'
+        },
         navbar: {
-            about: 'About',
             account: {
                 label: 'Account',
                 login: 'Login',
@@ -13,32 +15,17 @@ export const languages: ILanguages = {
             contact: 'Contact',
             home: 'Home',
             language: {
-                label: 'Language',
-                fr: 'French',
-                en: 'English'
+                en: 'English',
+                fr: 'Français',
+                label: 'Language'
             }
         },
-        pages: {
-            about: {
-                title: 'About us'
-            },
-            contact: {
-                title: 'Contact us!'
-            },
-            home: {
-                title: 'Welcome'
-            },
-            login: {
-                title: 'Login'
-            },
-            register: {
-                title: 'Register'
-            }
-        }
     },
     fr: {
+        app: {
+            title: 'Trouve ton appart\''
+        },
         navbar: {
-            about: 'À propos',
             account: {
                 label: 'Compte',
                 login: 'Connexion',
@@ -48,27 +35,10 @@ export const languages: ILanguages = {
             contact: 'Contact',
             home: 'Accueil',
             language: {
-                label: 'Langage',
+                en: 'English',
                 fr: 'Français',
-                en: 'Anglais'
+                label: 'Langage'
             }
         },
-        pages: {
-            about: {
-                title: 'À propos'
-            },
-            contact: {
-                title: 'Contactez nous'
-            },
-            home: {
-                title: 'Bienvenue'
-            },
-            login: {
-                title: 'Connexion'
-            },
-            register: {
-                title: 'Inscription'
-            }
-        }
     }
 };

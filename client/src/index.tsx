@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './main.css';
 import './app.scss';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { createBrowserHistory } from 'history';

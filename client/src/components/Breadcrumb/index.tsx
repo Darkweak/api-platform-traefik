@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import { RouteBreadcrumb } from './routes';
 
 export interface IBreadcrumb {
-    breadcrumb: RouteBreadcrumb[],
+    breadcrumb?: RouteBreadcrumb[],
 }
 
-export const Breadcrumb = ({ breadcrumb }: IBreadcrumb) => {
+export const Breadcrumb: React.FC<IBreadcrumb> = ({ breadcrumb = [] }) => {
     return (
         <div className="bg--paper d-flex">
             <div className="m--1 g--10">

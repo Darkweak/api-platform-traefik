@@ -8,4 +8,5 @@ login:
 
 contact:
     path: /contact
+    controller: App\Action\Contact
     methods: [POST]

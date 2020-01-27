@@ -24,7 +24,7 @@ export const TableComponent: React.FC<ITable> = ({ actions, data, dataKeys, disp
                         <span className="my-auto">{items.length} ligne{items.length > 1 && 's'} sélectionnée{items.length > 1 && 's'}</span>
                         <span className="ml-auto">
                             <RedButton>
-                                <Icon>delete</Icon>
+                                <Icon icon="trash"/>
                                 <span className="my-auto">
                                     Supprimer
                                 </span>
