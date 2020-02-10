@@ -3,12 +3,14 @@
 namespace App\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 trait EmailTrait
 {
     /**
      * @var string
      * @ORM\Column
+     * @Groups({"user_creation"})
      */
     private $email;
 
