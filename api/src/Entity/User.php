@@ -8,6 +8,7 @@ use App\Traits\EmailTrait;
 use App\Traits\IdTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
@@ -16,7 +17,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *          "get"={
  *              "access_control"="is_granted('ROLE_ADMIN')"
  *          },
- *          "post"
+ *          "post"={
+ *              "denormalization_context"={"groups"={"user_creation"}}
+ *          }
  *      },
  *      itemOperations={
  *          "get"={
@@ -46,8 +49,23 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Groups({"user_creation"})
      */
     private $password;
+
+    /**
+     * @var string The user's first name
+     * @ORM\Column(type="string")
+     * @Groups({"user_creation"})
+     */
+    private $firstname;
+
+    /**
+     * @var string The user's last name
+     * @ORM\Column(type="string")
+     * @Groups({"user_creation"})
+     */
+    private $lastname;
 
     /**
      * A visual identifier that represents this user.
@@ -89,6 +107,28 @@ class User implements UserInterface
     {
         $this->password = $password;
 
+        return $this;
+    }
+
+    public function getFirstname(): string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname(string $firstname): self
+    {
+        $this->firstname = $firstname;
+        return $this;
+    }
+
+    public function getLastname(): string
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname(string $lastname): self
+    {
+        $this->lastname = $lastname;
         return $this;
     }
 
