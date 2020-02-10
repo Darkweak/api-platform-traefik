@@ -54,7 +54,6 @@ function reducer(state: ISearch, action: any) {
                 list: action.payload
             };
         case 'ADD_TO_LIST':
-            console.log(action.payload);
             let list = state.list;
             list.push(...action.payload);
             return {

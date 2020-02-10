@@ -10,7 +10,10 @@ export const Login = () => {
 
     return (
         <Layout>
-            <div className="g--6 m--3 g-m--8 m-m--2 g-s--10 m-s--1 g-t--12 m-t--0 fade-in-from-bottom card">
+            <div className="panel content">
+                <h1 className="text-primary text-center">
+                    Se connecter
+                </h1>
                 <LoginForm/>
             </div>
         </Layout>

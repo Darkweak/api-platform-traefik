@@ -10,6 +10,7 @@ export const languages: ILanguages = {
                 label: 'Account',
                 login: 'Login',
                 logout: 'Logout',
+                my_account: 'My account',
                 register: 'Register',
             },
             contact: 'Contact',
@@ -18,7 +19,8 @@ export const languages: ILanguages = {
                 en: 'English',
                 fr: 'Français',
                 label: 'Language'
-            }
+            },
+            search: 'Start searching'
         },
     },
     fr: {
@@ -30,6 +32,7 @@ export const languages: ILanguages = {
                 label: 'Compte',
                 login: 'Connexion',
                 logout: 'Déconnexion',
+                my_account: 'Mon compte',
                 register: 'Inscription',
             },
             contact: 'Contact',
@@ -38,7 +41,8 @@ export const languages: ILanguages = {
                 en: 'English',
                 fr: 'Français',
                 label: 'Langage'
-            }
+            },
+            search: 'Lancer une recherche'
         },
     }
 };

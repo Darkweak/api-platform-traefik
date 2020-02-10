@@ -43,8 +43,8 @@ export class BienIciProvider extends AbstractProvider {
             onTheMarket: [ true ],
             page: 1,
             propertyType: [ 'house', 'flat' ],
-            sortBy: 'relevance',
-            sortOrder: 'desc',
+            sortBy: 'price',
+            sortOrder: 'asc',
             showAllModels: false,
             zoneIdsByTypes: {
                 zoneIds: []
@@ -57,7 +57,7 @@ export class BienIciProvider extends AbstractProvider {
             .getIds(search.postcode)
             .then(
                 ({ data }: AxiosResponse) => {
-                    let bienIciObject = this.serializeDataToValidObject(search)
+                    let bienIciObject = this.serializeDataToValidObject(search);
                     bienIciObject.zoneIdsByTypes.zoneIds = bienIciObject.zoneIdsByTypes.zoneIds.concat(...(data.filter((d: any) => d.postalCodes && d.postalCodes.includes(search.postcode)).map((v: any) => v.zoneIds)));
                     return this.getRequest({endpoint: `?filters=${ encodeURI(JSON.stringify(bienIciObject)) }&extensionType=extendedIfNoResult&leadingCount=2&access_token=test&id=1`})
                 }

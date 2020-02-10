@@ -25,11 +25,8 @@
     "react-dom": "^16.6.0",
     "react-flip-toolkit": "^7.0.7",
     "react-redux": "^5.1.0",
-    "react-router-dom": "^4.3.1",
+    "react-router-dom": "^5.1.0",
     "react-scripts": "^3.1.2",
-    "redux": "^4.0.1",
-    "redux-form": "^7.4.2",
-    "redux-thunk": "^2.3.0",
     "typescript": "^3.7.2"
   },
   "scripts": {

@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './layout.css';
 import { NavLink } from './Navbar';
+import { ClientContext, LanguageContext } from '../../contexts';
 import { IRoute, navbarRoutes } from '../../routes';
-import { LanguageContext } from '../../contexts';
 
 interface IAnimatedNavBar {
     fixed?: boolean;
@@ -31,6 +31,7 @@ export const AnimatedNavbar: React.FC<IAnimatedNavBar> = ({ className, fixed }) 
 
 export const NavBar: React.FC<INavBar> = ({ className, light, fixed }) => {
     const [open, setOpen] = useState<boolean>(false);
+    const { logged } = useContext(ClientContext);
     const { translate } = useContext(LanguageContext);
     return (
         <div
@@ -51,7 +52,7 @@ export const NavBar: React.FC<INavBar> = ({ className, light, fixed }) => {
             <div className={`header-nav ${ open && 'active' }`} id="header-menu">
                 <div className="nav-right">
                     {
-                        navbarRoutes.map((route: IRoute, key: number) => (
+                        navbarRoutes(logged).map((route: IRoute, key: number) => (
                             <NavLink {...{key, light, route}}/>
                         ))
                     }

@@ -6,7 +6,7 @@ interface IBackgroundAlert extends IClassName{
 }
 
 const BackgroundAlert: React.FC<IBackgroundAlert> = ({ children, className, color }) => (
-    <div className={`rounded-0 m-0 text-light text-center card bg-${ color } ${ className || '' }`}>
+    <div className={`rounded-0 text-light text-center m-0 toast toast--${ color } ${ className || '' }`}>
         { children }
     </div>
 );

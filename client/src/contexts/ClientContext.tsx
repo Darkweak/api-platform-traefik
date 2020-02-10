@@ -1,20 +1,21 @@
 import React, { createContext, useState } from 'react';
-import { getToken } from '../helpers';
+import { Token } from '../helpers';
 import { IChildren } from '../components/Layout';
 
 export const ClientContext = createContext({
-    logged: !!getToken(),
+    logged: !!new Token().get(),
     loginError: false,
-    token: getToken() || null,
+    token: new Token().get() || null,
     username: '',
     updateClient: (v: any) => {},
 });
 
 export const ClientProvider: React.FC<IChildren> = ({ children }) => {
+    const token = new Token().get();
     const [client, setClient] = useState({
-        logged: !!getToken(),
+        logged: !!token,
         loginError: false,
-        token: getToken() || null,
+        token: token || null,
         username: ''
     });
 

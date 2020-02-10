@@ -14,7 +14,7 @@ export const LoginForm = () => {
         <>
             {
                 !logged && loginError ?
-                    <div className="fade-in-from-bottom">
+                    <div className="fade-in-from-bottom px-2">
                         <BackgroundAlertWarning>
                             <span>Identifiants invalides</span>
                         </BackgroundAlertWarning>

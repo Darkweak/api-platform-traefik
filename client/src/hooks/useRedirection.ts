@@ -1,11 +1,11 @@
-import { useContext, useEffect } from 'react';
-import { RouterContext } from '../contexts';
+import { useEffect } from 'react';
+import { useHistory } from 'react-router';
 
 export const useRedirection = (condition: boolean, pathname: string = '/') => {
-    const { router } = useContext(RouterContext);
+    const { push } = useHistory();
     useEffect(() => {
-        if (condition && router) {
-            router.history.push(pathname)
+        if (condition) {
+            push(pathname)
         }
-    }, [condition, pathname, router]);
+    }, [condition, pathname, push]);
 };

@@ -37,6 +37,11 @@ $breakpooints: (
     desktop: 1024,
 );
 
+$mp: (
+    m: margin,
+    p: padding,
+);
+
 @media screen and (min-width: map_get($breakpooints, tablet) + px) {
     @each $direction, $opposite in $directions {
         @each $axis in $x-axis {
@@ -66,7 +71,7 @@ $breakpooints: (
 }
 
 .btn, button {
-    font-family: inherit;
+    font-family: inherit !important;
 }
 
 .header {
@@ -313,6 +318,9 @@ pre .copy:hover {
     .m-#{$i} {
         margin: $base * $i + rem;
     }
+    .mb-#{$i} {
+        margin-bottom: $base * $i + rem;
+    }
     .mx-#{$i} {
         margin-left: $base * $i + rem;
         margin-right: $base * $i + rem;
@@ -368,17 +376,29 @@ pre .copy:hover {
     }
 }
 
-.my-auto {
-    margin-top: auto;
-    margin-bottom: auto;
-}
-
-.m-auto {
-    margin: auto;
-}
-
-.ml-auto {
-    margin-left: auto;
+@each $position in (auto) {
+    @each $type, $value in $mp {
+        .#{$type}y-#{$position} {
+            #{$value}-top: $position;
+            #{$value}-bottom: $position;
+        }
+        .#{$type}l-#{$position} {
+            #{$value}-left: $position;
+        }
+        .#{$type}t-#{$position} {
+            #{$value}-top: $position;
+        }
+        .#{$type}x-#{$position} {
+            #{$value}-left: $position;
+            #{$value}-right: $position;
+        }
+        .#{$type}r-#{$position} {
+            #{$value}-right: $position;
+        }
+        .#{$type}-#{$position} {
+            #{$value}: $position;
+        }
+    }
 }
 
 .d-flex {
@@ -390,7 +410,7 @@ pre .copy:hover {
 }
 
 .border-none {
-    border: none;
+    border: none !important;
 }
 
 textarea.input-large {
@@ -407,6 +427,10 @@ textarea {
 
 .mw-0 {
     min-width: 0 !important;
+}
+
+.word-break {
+    word-break: break-word !important;
 }
 
 .transition {
@@ -446,6 +470,10 @@ main {
 #root {
     display: flex;
     min-height: 100vh;
+    flex-direction: column;
+}
+
+.flex-column {
     flex-direction: column;
 }
 

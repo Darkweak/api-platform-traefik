@@ -47,6 +47,20 @@ export const password = (className?: string): IField => ({
     type: 'password',
 });
 
+export const oldPassword = (className?: string): IField => ({
+    className,
+    name: 'oldpassword',
+    placeholder: 'ancienmotdepasse',
+    type: 'password',
+});
+
+export const newPassword = (className?: string): IField => ({
+    className,
+    name: 'newpassword',
+    placeholder: 'nouveaumotdepasse',
+    type: 'password',
+});
+
 export const subject = (className?: string): IField => ({
     className,
     name: 'subject',

@@ -94,8 +94,8 @@ interface IFormButton {
 const FormButton: React.FC<IFormButton> = ({ buttonText }) => {
     const { isLoading } = useContext(FormContext);
     return (
-        <div className="p-1 text-center w-100">
-            <button className="btn-primary btn-animated m-auto" disabled={ isLoading }>
+        <div className="p-1 text-center col-12">
+            <button className="btn-primary btn-animated m-auto" disabled={ isLoading } type="submit">
                 { isLoading ? <Spinner/> : buttonText || 'Valider' }
             </button>
         </div>
@@ -110,6 +110,9 @@ const formProperties = ({ dispatch, ref, submitForm }: any) => {
             dispatch({ type: 'SET_LOADING', payload: true });
             submitForm(formatformToJson(event.target), ref)
                 .then(() => {
+                    dispatch({ type: 'SET_LOADING', payload: false });
+                })
+                .catch(() => {
                     dispatch({ type: 'SET_LOADING', payload: false });
                 });
         },

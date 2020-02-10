@@ -9,7 +9,7 @@ interface IButton extends ISpecificButton {
 }
 
 const CommonButton: React.FC<IButton> = ({ children, color, type }) => (
-    <button className={`btn--${type} btn--${color} m-0 ml-1 py-1 px-2 d-flex`}>
+    <button className={`${type} btn-${color} m-0`}>
         { children }
     </button>
 );
@@ -23,26 +23,26 @@ const Button: React.FC<ISpecificButton> = props => (
     <CommonButton {...{type: 'raised', ...props}}/>
 );
 
-export const RedFlatButton: React.FC = props => <FlatButton {...{ color: 'red', ...props }}/>;
-export const YellowFlatButton: React.FC = props => <FlatButton {...{ color: 'yellow', ...props }}/>;
-export const GreenFlatButton: React.FC = props => <FlatButton {...{ color: 'green', ...props }}/>;
-export const BlueFlatButton: React.FC = props => <FlatButton {...{ color: 'blue', ...props }}/>;
+export const RedFlatButton: React.FC = props => <FlatButton {...{ color: 'danger', ...props }}/>;
+export const YellowFlatButton: React.FC = props => <FlatButton {...{ color: 'warning', ...props }}/>;
+export const GreenFlatButton: React.FC = props => <FlatButton {...{ color: 'success', ...props }}/>;
+export const BlueFlatButton: React.FC = props => <FlatButton {...{ color: 'info', ...props }}/>;
 export const PrimaryFlatButton: React.FC = props => <FlatButton {...{ color: 'primary', ...props }}/>;
-export const SecondaryFlatButton: React.FC = props => <FlatButton {...{ color: 'secondary', ...props }}/>;
-export const AccentFlatButton: React.FC = props => <FlatButton {...{ color: 'accent', ...props }}/>;
+export const SecondaryFlatButton: React.FC = props => <FlatButton {...{ color: 'dark', ...props }}/>;
+export const AccentFlatButton: React.FC = props => <FlatButton {...{ color: 'link', ...props }}/>;
 
-export const RedFloatButton: React.FC = props => <FloatButton {...{ color: 'red', ...props }}/>;
-export const YellowFloatButton: React.FC = props => <FloatButton {...{ color: 'yellow', ...props }}/>;
-export const GreenFloatButton: React.FC = props => <FloatButton {...{ color: 'green', ...props }}/>;
-export const BlueFloatButton: React.FC = props => <FloatButton {...{ color: 'blue', ...props }}/>;
+export const RedFloatButton: React.FC = props => <FloatButton {...{ color: 'danger', ...props }}/>;
+export const YellowFloatButton: React.FC = props => <FloatButton {...{ color: 'warning', ...props }}/>;
+export const GreenFloatButton: React.FC = props => <FloatButton {...{ color: 'success', ...props }}/>;
+export const BlueFloatButton: React.FC = props => <FloatButton {...{ color: 'info', ...props }}/>;
 export const PrimaryFloatButton: React.FC = props => <FloatButton {...{ color: 'primary', ...props }}/>;
-export const SecondaryFloatButton: React.FC = props => <FloatButton {...{ color: 'secondary', ...props }}/>;
-export const AccentFloatButton: React.FC = props => <FloatButton {...{ color: 'accent', ...props }}/>;
+export const SecondaryFloatButton: React.FC = props => <FloatButton {...{ color: 'dark', ...props }}/>;
+export const AccentFloatButton: React.FC = props => <FloatButton {...{ color: 'link', ...props }}/>;
 
-export const RedButton: React.FC = props => <Button {...{ color: 'red', ...props }}/>;
-export const YellowButton: React.FC = props => <Button {...{ color: 'yellow', ...props }}/>;
-export const GreenButton: React.FC = props => <Button {...{ color: 'green', ...props }}/>;
-export const BlueButton: React.FC = props => <Button {...{ color: 'blue', ...props }}/>;
+export const RedButton: React.FC = props => <Button {...{ color: 'danger', ...props }}/>;
+export const YellowButton: React.FC = props => <Button {...{ color: 'warning', ...props }}/>;
+export const GreenButton: React.FC = props => <Button {...{ color: 'success', ...props }}/>;
+export const BlueButton: React.FC = props => <Button {...{ color: 'info', ...props }}/>;
 export const PrimaryButton: React.FC = props => <Button {...{ color: 'primary', ...props }}/>;
-export const SecondaryButton: React.FC = props => <Button {...{ color: 'secondary', ...props }}/>;
-export const AccentButton: React.FC = props => <Button {...{ color: 'accent', ...props }}/>;
+export const SecondaryButton: React.FC = props => <Button {...{ color: 'dark', ...props }}/>;
+export const AccentButton: React.FC = props => <Button {...{ color: 'link', ...props }}/>;

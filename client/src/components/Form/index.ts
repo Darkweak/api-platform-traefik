@@ -1,3 +1,4 @@
+export * from './ChangePasswordForm';
 export * from './ContactForm';
 export * from './FlippedForm';
 export * from './LoginForm';

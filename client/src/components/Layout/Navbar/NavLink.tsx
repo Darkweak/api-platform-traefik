@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { IRoute } from '../../../routes';
-import { ClientContext, LanguageContext, RouterContext } from '../../../contexts';
+import { Link, useHistory } from 'react-router-dom';
+import { ClientContext, LanguageContext } from '../../../contexts';
 import { Icon } from '../Icon';
 import { IClassName } from '../index';
 import { NavDropdown } from './NavDropdown';
+import { IRoute } from '../../../routes';
 
 interface INavlink {
     light?: boolean,
@@ -14,15 +14,15 @@ interface INavlink {
 export const NavLink: React.FC<IClassName & INavlink> = ({ className, light, route }) => {
     const { updateClient } = useContext(ClientContext);
     const { setSelectedLanguage, translate } = useContext(LanguageContext);
-    const { router } = useContext(RouterContext);
+    const { location } = useHistory();
     switch (route.type) {
         case 'button':
             return (
                 <div className="nav-item p-2">
                     <button className={`btn-primary u-no-padding w-100 text-center d-flex ${ light && 'outline' }`}>
                         <Link to='/search' className="m-auto">
-                            <Icon icon='search'/>
-                            <span>Lancer un recherche</span>
+                            <Icon icon={ route.icon }/>
+                            <span className={`my-auto ${ route.icon && 'pl-1' }`}>{ translate(`navbar.${ route.name }`) }</span>
                         </Link>
                     </button>
                 </div>
@@ -30,13 +30,14 @@ export const NavLink: React.FC<IClassName & INavlink> = ({ className, light, rou
         case 'dropdown':
             return (
                 <NavDropdown items={route.children || []}>
-                    Langue
+                    <Icon icon={ route.icon }/>
+                    <span className={`my-auto ${ route.icon && 'pl-1' }`}>{ translate(`navbar.${ route.name }`) }</span>
                 </NavDropdown>
             );
 
     }
     return (
-        <div className={`nav-item ${ className || '' } ${ router && route.path === router.location.pathname && 'active' }`}>
+        <div className={`nav-item ${ className || '' } ${ route.path === location.pathname && 'active' }`}>
             <Link
                 to={route.path}
                 onClick={
@@ -52,7 +53,7 @@ export const NavLink: React.FC<IClassName & INavlink> = ({ className, light, rou
                 }
             >
                 { route.icon && <Icon icon={route.icon}/> }
-                <span className={`my-auto ${ route.icon && 'ml-1' }`}>{ translate(`navbar.${ route.name }`) }</span>
+                <span className={`my-auto ${ route.icon && 'pl-1' }`}>{ translate(`navbar.${ route.name }`) }</span>
             </Link>
         </div>
     );

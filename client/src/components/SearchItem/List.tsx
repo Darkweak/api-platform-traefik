@@ -1,53 +1,41 @@
 import React, { useContext, useState } from 'react';
 import { ISearchItem, SearchContext } from '../../contexts/SearchContext';
-import { Flipper } from 'react-flip-toolkit';
+import { Flipped, Flipper } from 'react-flip-toolkit';
+import './list.scss';
+import { Item } from './Item';
 
 export const List: React.FC = () => {
-    const [ selected ] = useState<number|null>(null);
-    const { list } = useContext(SearchContext);
+    const [ selected, setSelected ] = useState<number | null>(null);
+    const {list} = useContext(SearchContext);
+
     return (
         <Flipper
-            flipKey={ selected }
-            className="staggered-list-content"
-            spring="gentle"
-            staggerConfig={{
-                card: {
-                    reverse: selected !== null
-                }
-            }}
-            decisionData={ selected }
+            flipKey={selected}
+            className="content row"
+            spring="noWobble"
+            decisionData={selected}
         >
-            <div className="content row">
-                {
-                    list.map((item: ISearchItem, key: number) => (
-                        <div {...{ className: 'col-4', key }}>
+            {
+                list.map((item: ISearchItem, index: number) =>
+                    <Flipped
+                        {...{
+                            flipId: `card-item-${index}`,
+                            key: index,
+                        }}
+                    >
+                        <div {...{key: index, className: `col-${index === selected ? '12' : '6'}`}}>
                             <div className="d-flex h-100">
-                                <div className="card tile tile--center pointer">
-                                    <div className="d-flex w-100 h-100">
-                                        <div className="p-0 col-4 ignore-screen">
-                                            <img src={ item.photos[0].url_photo || item.photos[0].url } alt={ item.photos[0].photo } className="h-100 w-100"/>
-                                        </div>
-                                        <div className="col-8 ignore-screen">
-                                            <div className="tile__container">
-                                            <span className="tile__title u-no-margin d-block text-center">
-                                                { item.price }€
-                                            </span>
-                                                <span className="tile__subtitle u-no-margin d-block text-center">
-                                                { item.city }
-                                            </span>
-                                                <span
-                                                    className="info text-center clamped clamped-3 pb-1"
-                                                    dangerouslySetInnerHTML={{ __html: item.description }}
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div {...{
+                                    className: `card tile tile--center pointer w-100 ${ index === selected ? 'expanded-item' : 'collapsed-item'}`,
+                                    onClick: () => setSelected(index === selected ? null : index)
+                                }}>
+                                    <Item {...{index, item, selected}}/>
                                 </div>
                             </div>
                         </div>
-                    ))
-                }
-            </div>
+                    </Flipped>
+                )
+            }
         </Flipper>
     )
-}
+};

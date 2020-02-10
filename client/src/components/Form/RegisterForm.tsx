@@ -3,7 +3,7 @@ import { email, firstname, lastname, password } from './Field';
 import { Form } from './';
 import { useRedirection } from '../../hooks';
 import { ClientContext, FormProvider } from '../../contexts';
-import { User } from '../../actions';
+import { IRegisterUser, User } from '../../actions';
 
 export const RegisterForm = () => {
     const { logged } = useContext(ClientContext);
@@ -19,12 +19,12 @@ export const RegisterForm = () => {
                         }
                     ],
                     fields: [
-                        lastname('g--6 g-t--12'),
-                        firstname('g--6 g-t--12'),
+                        lastname('col-6'),
+                        firstname('col-6'),
                         email(),
                         password()
                     ],
-                    submitForm: new User().register,
+                    submitForm: (data: IRegisterUser, ref: any) => new User().register({ data, ref }),
                     type: 'large',
                 }}/>
             </FormProvider>

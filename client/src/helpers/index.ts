@@ -1,15 +1,48 @@
 import jwt_decode from 'jwt-decode';
 
-const TOKEN = 'token';
-const USERNAME = 'username';
-
-const getLS = (item: string) => localStorage.getItem(item);
-const setLS = (item: string, value: string) => localStorage.setItem(item, value);
-const deleteLS = (item: string) => localStorage.removeItem(item);
 export const hasWindow = (): boolean => 'undefined' !== typeof window;
-export const getToken = () => hasWindow() && getLS(TOKEN);
-export const setToken = (value: string) => hasWindow() && setLS(TOKEN, value) && setUsername(value);
-export const deleteToken = () => hasWindow() && deleteLS(TOKEN) && deleteUsername();
-export const getUsername = (): string => (hasWindow() && getLS(USERNAME)) || '';
-export const setUsername = (value: string) => hasWindow() && setLS(USERNAME, jwt_decode(value));
-export const deleteUsername = () => hasWindow() && deleteLS(USERNAME);
+
+abstract class LS {
+    protected field = '';
+    public get(): string {
+        return (hasWindow() && localStorage.getItem(this.field)) || '';
+    }
+    public set(value: string): void {
+        localStorage.setItem(this.field, value);
+    }
+    public delete(): void {
+        localStorage.removeItem(this.field);
+    }
+}
+
+export class Token extends LS {
+    protected field = 'token';
+
+    public getDecodedToken(): any {
+        return jwt_decode(this.get());
+    }
+}
+
+export class Firstname extends Token{
+    protected field = 'firstname';
+
+    public set() {
+        super.set(new Token().getDecodedToken().firstname);
+    }
+}
+
+export class Lastname extends Token{
+    protected field = 'lastname';
+
+    public set() {
+        super.set(new Token().getDecodedToken().lastname);
+    }
+}
+
+export class Username extends Token{
+    protected field = 'username';
+
+    public set() {
+        super.set(new Token().getDecodedToken().username);
+    }
+}

@@ -1,11 +1,16 @@
 import { AxiosResponse } from 'axios';
-import { deleteToken, getUsername, setToken } from '../helpers';
+import { Token, Firstname, Lastname, Username } from '../helpers';
 import { APIConnection } from './API';
 import { MutableRefObject } from 'react';
 
 export interface ILoginUser {
     username: string,
     password: string,
+}
+
+export interface IChangePassword {
+    newpassword: string,
+    oldpassword: string,
 }
 
 export interface IRegisterUser{
@@ -24,9 +29,13 @@ interface LoginInterface extends RefInterface {
     updateClient: (value: any) => void
 }
 
+interface ChangePasswordInterface extends RefInterface {
+    data: ILoginUser
+}
+
 interface RegisterInterface extends RefInterface {
     data: IRegisterUser,
-    updateClient: (value: any) => void
+    updateClient?: (value: any) => void
 }
 
 interface LogoutInterface {
@@ -41,12 +50,16 @@ export class User extends APIConnection {
         }).then(({status, data}: AxiosResponse) => {
             if (200 === status) {
                 const { token } = data;
-                setToken(token);
+                new Token().set(token);
+                const firstname = new Firstname();
+                firstname.set();
+                new Lastname().set();
+                new Username().set();
                 updateClient({
                     logged: true,
                     loginError: false,
                     token,
-                    username: getUsername(),
+                    username: firstname.get(),
                 });
                 ref.current.reset();
             }
@@ -57,12 +70,25 @@ export class User extends APIConnection {
     }
 
     public logout({ updateClient }: LogoutInterface) {
-        deleteToken();
+        new Token().delete();
+        new Firstname().delete();
+        new Lastname().delete();
         updateClient({
             logged: false,
             loginError: false,
             token: null,
             username: '',
+        });
+    }
+
+    public changePassword({ data, ref }: ChangePasswordInterface) {
+        return this.postRequest({
+            data,
+            endpoint: '/change-password',
+        }).then(({status}: AxiosResponse) => {
+            if (201 === status) {
+                ref.current.reset();
+            }
         })
     }
 

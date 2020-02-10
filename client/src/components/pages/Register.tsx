@@ -1,8 +1,16 @@
-import React, { useContext } from 'react';
-import { Connection, getClient, getRegister } from '../Connection';
-import { ClientContext } from '../../contexts';
+import React from 'react';
+import { RegisterForm } from '../Form';
+import { Layout } from '../Layout';
 
 export const Register = () => {
-    const { updateClient } = useContext(ClientContext);
-    return <Connection firstForm={getRegister()} secondForm={getClient(updateClient)} page={'register'}/>
+    return (
+        <Layout>
+            <div className="panel content">
+                <h1 className="text-primary text-center">
+                    S'inscrire
+                </h1>
+                <RegisterForm/>
+            </div>
+        </Layout>
+    )
 };

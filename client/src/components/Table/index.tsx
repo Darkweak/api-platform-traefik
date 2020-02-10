@@ -17,10 +17,10 @@ interface ITable {
 
 export const TableComponent: React.FC<ITable> = ({ actions, data, dataKeys, dispatch, headers, items, selectable, withHeaders }) => {
     return (
-        <div className="table-responsive card p-0">
+        <div className="table-responsive border-none">
             {
                 selectable && items && items.length ? (
-                    <div className="p-4 d-flex bg--midnight-blue color--paper">
+                    <div className="p-4 d-flex">
                         <span className="my-auto">{items.length} ligne{items.length > 1 && 's'} sélectionnée{items.length > 1 && 's'}</span>
                         <span className="ml-auto">
                             <RedButton>
@@ -54,7 +54,7 @@ export const TableComponent: React.FC<ITable> = ({ actions, data, dataKeys, disp
                                 <tr key={index} className={(items && items.includes(item.id) && 'bg--belize not-hoverable color--paper') || ''}>
                                     {
                                         selectable && (
-                                            <td className="p-0 d-flex">
+                                            <td>
                                                 <input
                                                     type="checkbox"
                                                     checked={items && items.includes(item.id)}
@@ -70,7 +70,7 @@ export const TableComponent: React.FC<ITable> = ({ actions, data, dataKeys, disp
                                     }
                                     {
                                         (dataKeys || headers).map(
-                                            (property: string, key: number) => <td {...{className: 'text-center p-0', key}}>{item[property]}</td>
+                                            (property: string, key: number) => <td key={key}>{item[property]}</td>
                                         )
                                     }
                                 </tr>

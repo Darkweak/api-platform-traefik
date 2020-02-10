@@ -12,6 +12,7 @@ interface ITranslations {
             label: string;
             login: string;
             logout: string;
+            my_account: string;
             register: string;
         };
         contact: string;
@@ -20,7 +21,8 @@ interface ITranslations {
             label: string,
             fr: string,
             en: string
-        }
+        },
+        search: string
     };
 }
 

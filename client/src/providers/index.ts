@@ -8,8 +8,8 @@ interface IProviders {
 }
 
 export * from './BienIciProvider';
-export const initProviders = ({ data, resetList }: IProviders): Promise<AxiosPromise>[] => {
+export const initProviders = ({ data }: IProviders): Promise<AxiosPromise>[] => {
     return [
-        new BienIciProvider().get(data).then()
+        new BienIciProvider().get(data).then(),
     ]
 };
