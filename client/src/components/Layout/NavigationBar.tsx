@@ -1,39 +1,77 @@
-import React, { useContext, useRef, useState } from 'react';
-import { connexionRoutes, IRoute, navbarRoutes, loggedRoutes, languageRoutes } from '../../routes';
-import { Collapse } from './Navbar';
-import { ClientContext, RouterContext } from '../../contexts';
-import { NavLink } from './Navbar/NavLink';
+import React, { useContext, useEffect, useState } from 'react';
+import { navbarRoutes } from '../../routes';
 import './layout.css';
-import { useOutsideClick } from '../../hooks';
+import { Container, Nav, Navbar as BNavbar, NavDropdown as BNavDropdown } from 'react-bootstrap';
+import { NavDropdown, NavLink } from './Navbar';
+import { hasWindow } from '../../helpers';
+import { AllowedLanguages, LanguageContext } from '../../contexts';
+
+const MAX_SCROLL = 120;
+
+interface LanguageInterface {
+    value: AllowedLanguages,
+    label: string,
+}
+
+const languages: LanguageInterface[] = [
+    {
+        value: 'en',
+        label: 'English',
+    },
+    {
+        value: 'fr',
+        label: 'Français',
+    },
+];
 
 export const NavBar = () => {
-    const [open, setOpen] = useState(false);
-    const { router } = useContext(RouterContext);
-    const { logged } = useContext(ClientContext);
-    const ref = useRef(null);
-    useOutsideClick(ref, () => setOpen(false));
+    const [top, setTop] = useState(hasWindow() && window.scrollY < MAX_SCROLL);
+    const {language, setSelectedLanguage} = useContext(LanguageContext);
+
+    const handleScroll = () => {
+        setTop(hasWindow() && window.scrollY < MAX_SCROLL);
+    };
+
+    useEffect(() => {
+        hasWindow() && window.addEventListener('scroll', handleScroll);
+
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
     return (
-        <div ref={ref}>
-            <input type="checkbox" id="nav--super-vertical-responsive" onChange={() => {setOpen(!open)}} checked={open}/>
-            <label htmlFor="nav--super-vertical-responsive" className="bg--turqoise p-0">
-                <div className={`transition border-none menu-icon${open ? ' is-opened' : ''}`}>
-                    <span/>
-                </div>
-            </label>
-            <aside className="nav--super-vertical g--2 g-m--3 g-s--6 g-t--12 no-margin-vertical p-0">
-                <div className="g--12 logo-area no-margin-vertical bg--green-sea">
-                    <h4 className="color--clouds no-margin-vertical">{process.env.REACT_APP_NAME}</h4>
-                </div>
-                <nav className="g--12 no-margin-vertical">
-                    {
-                        navbarRoutes.map((route: IRoute, index: number) => (
-                            <NavLink key={index} {...{route, router}}/>
-                        ))
-                    }
-                    <Collapse icon="face" id="nav-collapsible-account" name="navbar.account.label" links={logged ? loggedRoutes : connexionRoutes}/>
-                    <Collapse icon="language" id="nav-collapsible-language" name="navbar.language.label" links={languageRoutes}/>
-                </nav>
-            </aside>
-        </div>
+        <BNavbar
+            bg={top ? 'transparent scale-text' : 'gradient'}
+            collapseOnSelect
+            expand='lg'
+            sticky='top'
+            variant='dark'
+        >
+            <Container>
+                <BNavbar.Brand href='/'>&lt;devcv/&gt;</BNavbar.Brand>
+                <BNavbar.Toggle aria-controls='appbar'/>
+                <BNavbar.Collapse id='appbar'>
+                    <Nav className='ml-auto'>
+                        {
+                            navbarRoutes.map((route, index) => (
+                                <NavLink key={index} route={route}/>
+                            ))
+                        }
+                        <NavDropdown title='language' icon='language'>
+                            {
+                                languages.map((l, index) => (
+                                    <BNavDropdown.Item
+                                        key={index}
+                                        onClick={() => setSelectedLanguage(l.value)}
+                                        active={language === l.value}
+                                    >
+                                        {l.label}
+                                    </BNavDropdown.Item>
+                                ))
+                            }
+                        </NavDropdown>
+                    </Nav>
+                </BNavbar.Collapse>
+            </Container>
+        </BNavbar>
     )
 };

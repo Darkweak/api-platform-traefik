@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './main.css';
 import './app.scss';
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { IRoute, routes } from './routes';
-import { LanguageProvider, RouterProvider } from './contexts';
+import { LanguageProvider } from './contexts';
 
 export const history: any = createBrowserHistory();
 
@@ -16,11 +16,7 @@ ReactDOM.render(
                 {
                     routes.map(
                         (route: IRoute, index: number) =>
-                            <Route key={index} path={route.path} strict exact component={
-                                ({...rest}: any) => <RouterProvider {...rest}>
-                                    {route.component}
-                                </RouterProvider>
-                            }/>
+                            <Route key={index} exact {...route}/>
                     )
                 }
             </Switch>

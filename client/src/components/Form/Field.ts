@@ -1,53 +1,46 @@
-import { IClassNames } from '../Layout';
+import { ClassNameInterface } from '../Layout';
 
-export interface IField extends IClassNames {
+export interface IField extends ClassNameInterface {
     label?: string,
     name: string,
-    placeholder?: string,
     type?: string,
 }
 
-export const email = (classnames?: string) => ({
-    classnames,
+export const email = (className?: string) => ({
+    className,
     name: 'email',
-    placeholder: 'votre@email.com',
     type: 'email',
 });
 
-export const firstname = (classnames?: string) => ({
-    classnames,
+export const firstname = (className?: string) => ({
+    className,
     name: 'firstname',
-    placeholder: 'Prénom',
 });
 
-export const lastname = (classnames?: string) => ({
-    classnames,
-    name: 'lastname',
-    placeholder: 'Nom de famille',
+export const lastname = (className?: string) => ({
+    className,
+    name: 'lastname'
 });
 
-export const message = (classnames?: string) => ({
-    classnames,
+export const message = (className?: string) => ({
+    className,
     name: 'message',
     type: 'textarea',
 });
 
-export const password = (classnames?: string) => ({
-    classnames,
+export const password = (className?: string) => ({
+    className,
     name: 'password',
-    placeholder: 'supermotdepasse',
     type: 'password',
 });
 
-export const subject = (classnames?: string) => ({
-    classnames,
+export const subject = (className?: string) => ({
+    className,
     name: 'subject',
-    placeholder: 'Sujet du message',
 });
 
-export const username = (classnames?: string) => ({
-    classnames,
+export const username = (className?: string) => ({
+    className,
     name: 'username',
-    placeholder: 'votre@email.com',
     type: 'email',
 });

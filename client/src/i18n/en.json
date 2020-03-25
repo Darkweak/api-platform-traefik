@@ -1,0 +1,86 @@
+{
+  "form": {
+    "additionalLink": {
+      "login": "Already registered?",
+      "register": "Not yet registered?"
+    },
+    "button": {
+      "send": "Send",
+      "submit": "Submit",
+      "validate": "Validate"
+    },
+    "contact": {
+      "error": "An error occurred, try again later",
+      "success": "Your message has been successfully sent!"
+    },
+    "field": {
+      "email": {
+        "label": "Email",
+        "placeholder": "your@email.com"
+      },
+      "firstname": {
+        "label": "First name",
+        "placeholder": "First name"
+      },
+      "lastname": {
+        "label": "Last name",
+        "placeholder": "Last name"
+      },
+      "message": {
+        "label": "Message content",
+        "placeholder": "A question, a sweet word?"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "yourpassword"
+      },
+      "subject": {
+        "label": "Message subject",
+        "placeholder": "Message subject"
+      },
+      "username": {
+        "label": "Username",
+        "placeholder": "johndoe"
+      }
+    },
+    "login": {
+      "error": "Invalid credentials"
+    },
+    "register": {
+      "error": "Invalid credentials"
+    }
+  },
+  "navbar": {
+    "about": "About",
+    "account": {
+      "label": "Account",
+      "login": "Login",
+      "logout": "Logout",
+      "register": "Register"
+    },
+    "contact": "Contact",
+    "home": "Home",
+    "language": {
+      "label": "Language",
+      "fr": "French",
+      "en": "English"
+    }
+  },
+  "pages": {
+    "about": {
+      "title": "About us"
+    },
+    "contact": {
+      "title": "Contact me"
+    },
+    "home": {
+      "title": "Welcome"
+    },
+    "login": {
+      "title": "Login"
+    },
+    "register": {
+      "title": "Register"
+    }
+  }
+}

@@ -1,5 +1,4 @@
-import React, { createContext, useState } from 'react';
-import { IChildren } from '../components/Layout';
+import React, { createContext, Dispatch, SetStateAction, useState } from 'react';
 import { languages } from '../i18n/i18n';
 import { ClientProvider } from './ClientContext';
 
@@ -38,18 +37,18 @@ export interface ILanguages {
     fr: ITranslations;
 }
 
-const containsKey = (obj: any, keys: string[]): string | undefined => {
-    if (obj[ keys[ 0 ] ]) {
-        if (1 === keys.length) {
-            return obj[ keys[ 0 ] ]
-        } else {
-            let newObj = obj[ keys[ 0 ] ];
-            keys.splice(0, 1);
-            return containsKey(newObj, keys);
-        }
-    } else {
-        return undefined
+const findTranslation = (
+    keys: string[],
+    translations: any /*eslint-disable-line*/
+): string | undefined => {
+    const key = keys[ 0 ];
+    if (keys.length && translations[ key.toString() ]) {
+        keys.shift();
+        return findTranslation(keys, translations[ key.toString() ]);
+    } else if (!keys.length) {
+        return translations;
     }
+    return undefined;
 };
 
 export type AllowedLanguages = 'en' | 'fr'
@@ -68,9 +67,9 @@ const defaultState: ILanguageContext = {
 
 export const LanguageContext = createContext<ILanguageContext>(defaultState);
 
-export const LanguageProvider: React.FC<IChildren> = ({children}) => {
-    const [ language, setLanguage ] = useState<AllowedLanguages>('en');
-    const translate = (key: string) => containsKey(languages[ language ], key.split('.')) || key;
+export const LanguageProvider: React.FC = ({children}) => {
+    const [language, setLanguage]: [AllowedLanguages, Dispatch<SetStateAction<AllowedLanguages>>] = useState<AllowedLanguages>('en');
+    const translate = (value: string): string => findTranslation(value.split('.'), languages[ language ]) || value;
 
     return (
         <LanguageContext.Provider

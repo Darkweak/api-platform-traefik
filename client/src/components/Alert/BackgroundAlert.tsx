@@ -1,36 +1,35 @@
 import * as React from 'react';
-import { IChildren } from '../Layout';
 
 interface IBackgroundAlert {
     color: string,
 }
 
-const BackgroundAlert = ({ color, children }: IBackgroundAlert & IChildren) => (
-    <div className={`color--paper text-center card bg--${ color }`}>
-        { children }
+const BackgroundAlert: React.FC<IBackgroundAlert> = ({children, color}) => (
+    <div role='alert' className={`alert alert-${color}`}>
+        {children}
     </div>
 );
 
-export const BackgroundAlertDanger = ({ children }: IChildren) => (
-    <BackgroundAlert color="red">
-        { children }
+export const BackgroundAlertDanger: React.FC = ({children}) => (
+    <BackgroundAlert color='danger'>
+        {children}
     </BackgroundAlert>
 );
 
-export const BackgroundAlertInfo = ({ children }: IChildren) => (
-    <BackgroundAlert color="blue">
-        { children }
+export const BackgroundAlertInfo: React.FC = ({children}) => (
+    <BackgroundAlert color='info'>
+        {children}
     </BackgroundAlert>
 );
 
-export const BackgroundAlertSuccess = ({ children }: IChildren) => (
-    <BackgroundAlert color="green">
-        { children }
+export const BackgroundAlertSuccess: React.FC = ({children}) => (
+    <BackgroundAlert color='success'>
+        {children}
     </BackgroundAlert>
 );
 
-export const BackgroundAlertWarning = ({ children }: IChildren) => (
-    <BackgroundAlert color="orange">
-        { children }
+export const BackgroundAlertWarning: React.FC = ({children}) => (
+    <BackgroundAlert color='warning'>
+        {children}
     </BackgroundAlert>
 );

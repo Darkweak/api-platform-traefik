@@ -1,5 +1,4 @@
 import React, { createContext, useReducer } from 'react';
-import { IChildren } from '../components/Layout';
 
 export const ADD_SELECTED_ITEM = 'ADD_SELECTED_ITEM';
 export const REMOVE_SELECTED_ITEM = 'REMOVE_SELECTED_ITEM';
@@ -40,7 +39,7 @@ function reducer(state: ITable, action: any) {
 
 export const TableContext = createContext(defaultValue);
 
-export const TableProvider: React.FC<IChildren> = ({ children }) => {
+export const TableProvider: React.FC = ({children}) => {
     const [state, dispatch] = useReducer(reducer, defaultValue);
 
     return (

@@ -1,22 +1,21 @@
 import React, { useContext } from 'react';
 import { password, username } from './Field';
 import { Form } from './';
-import { ILoginUser, login } from '../../actions/user';
-import { ClientContext, FormProvider } from '../../contexts';
+import { ILoginUser, Login } from '../../actions';
+import { ClientContext, FormProvider, LanguageContext } from '../../contexts';
 import { BackgroundAlertWarning } from '../Alert';
-import { useRedirection } from '../../hooks';
 
 export const LoginForm = () => {
-    const { logged, loginError, updateClient } = useContext(ClientContext);
-    useRedirection(logged);
+    const {logged, loginError, updateClient} = useContext(ClientContext);
+    const {translate} = useContext(LanguageContext);
 
     return (
         <>
             {
                 !logged && loginError ?
-                    <div className="fade-in-from-bottom">
+                    <div className='fade-in-from-bottom'>
                         <BackgroundAlertWarning>
-                            <span>Identifiants invalides</span>
+                            <span>{translate(`form.login.error`)}</span>
                         </BackgroundAlertWarning>
                     </div> : ''
             }
@@ -24,7 +23,7 @@ export const LoginForm = () => {
                 <Form {...{
                     additionalLinks: [
                         {
-                            label: 'Pas encore de compte ?',
+                            label: 'register',
                             path: '/register',
                         }
                     ],
@@ -32,7 +31,7 @@ export const LoginForm = () => {
                         username(),
                         password()
                     ],
-                    submitForm: (data: ILoginUser, ref: any) => login(data, updateClient, ref)
+                    submitForm: (data: ILoginUser, ref: any) => new Login().login({data, callback: updateClient, ref})
                 }}/>
             </FormProvider>
         </>

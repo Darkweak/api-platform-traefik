@@ -1,0 +1,51 @@
+$animation: .5s ease-out forwards;
+$size: 6px;
+
+.fade-in-from-top {
+    opacity: 0;
+    transform: translateY(-$size);
+    animation: fadeInVert $animation;
+    -webkit-animation: fadeInVert $animation
+}
+
+.fade-in-from-bottom {
+    opacity: 0;
+    transform: translateY($size);
+    animation: fadeInVert $animation;
+    -webkit-animation: fadeInVert $animation
+}
+
+@keyframes fadeInVert {
+    to {
+        opacity: 1;
+        transform: translateY(0)
+    }
+}
+
+.fade-in-from-left {
+    opacity: 0;
+    transform: translateX(-$size);
+    animation: fadeInHoriz $animation;
+    -webkit-animation: fadeInHoriz $animation
+}
+
+.fade-in-from-right {
+    opacity: 0;
+    transform: translateX($size);
+    animation: fadeInHoriz $animation;
+    -webkit-animation: fadeInHoriz $animation
+}
+
+@keyframes fadeInHoriz {
+    to {
+        opacity: 1;
+        transform: translateX(0)
+    }
+}
+
+@for $i from 1 through 10 {
+    .anim-delay--#{$i} {
+        animation-delay: $i * .5 + s;
+        -webkit-animation-delay: $i * .5 + s;
+    }
+}

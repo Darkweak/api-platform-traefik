@@ -1,5 +1,4 @@
 import React, { createContext, useReducer } from 'react';
-import { IChildren } from '../components/Layout';
 
 interface IForm {
     isLoading: boolean,
@@ -10,7 +9,12 @@ const defaultValue: IForm = {
     isLoading: false,
 };
 
-function reducer(state: IForm, action: any) {
+type Action = {
+    payload: boolean;
+    type: string;
+}
+
+function reducer(state: IForm, action: Action) {
     switch (action.type) {
         case 'SET_LOADING':
             return {
@@ -23,7 +27,7 @@ function reducer(state: IForm, action: any) {
 
 export const FormContext = createContext(defaultValue);
 
-export const FormProvider: React.FC<IChildren> = ({ children }) => {
+export const FormProvider: React.FC = ({children}) => {
     const [state, dispatch] = useReducer(reducer, defaultValue);
 
     return (

@@ -1,0 +1,80 @@
+{
+  "form": {
+    "additionalLink": {
+      "login": "Déjà inscrit ?",
+      "register": "Pas encore inscrit ?"
+    },
+    "button": {
+      "send": "Envoyer",
+      "submit": "Envoyer",
+      "validate": "Valider"
+    },
+    "contact": {
+      "error": "Une erreur est survenue, veuillez réessayer plus tard",
+      "success": "Votre message a bien été envoyé!"
+    },
+    "field": {
+      "email": {
+        "label": "Email",
+        "placeholder": "votre@email.fr"
+      },
+      "firstname": {
+        "label": "Prénom",
+        "placeholder": "Prénom"
+      },
+      "lastname": {
+        "label": "Nom de famille",
+        "placeholder": "Nom de famille"
+      },
+      "message": {
+        "label": "Contenu du message",
+        "placeholder": "Une question, un mot doux ?"
+      },
+      "password": {
+        "label": "Mot de passe",
+        "placeholder": "votremotdepasse"
+      },
+      "subject": {
+        "label": "Sujet du message",
+        "placeholder": "Sujet du message"
+      },
+      "username": {
+        "label": "Nom d'utilisateur",
+        "placeholder": "johndoe"
+      }
+    }
+  },
+  "navbar": {
+    "about": "À propos",
+    "account": {
+      "label": "Compte",
+      "login": "Connexion",
+      "logout": "Déconnexion",
+      "register": "Inscription"
+    },
+    "contact": "Contact",
+    "home": "Accueil",
+    "language": {
+      "label": "Langage",
+      "fr": "Français",
+      "en": "Anglais"
+    }
+  },
+  "pages": {
+    "about": {
+      "title": "À propos"
+    },
+    "contact": {
+      "title": "Me contacter"
+    },
+    "home": {
+      "title": "Bienvenue"
+    },
+    "login": {
+      "title": "Connexion"
+    },
+    "register": {
+      "title": "Inscription"
+    }
+  }
+}

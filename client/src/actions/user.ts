@@ -1,58 +1,63 @@
-import { postRequest } from './API';
-import { AxiosResponse } from 'axios';
-import { deleteToken, getUsername, setToken } from '../helpers';
+import { API } from './API';
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { Token, Username } from '../helpers';
+import { Dispatch, MutableRefObject, SetStateAction } from 'react';
 
 export interface ILoginUser {
     username: string,
     password: string,
 }
 
-export interface IRegisterUser{
-    email: string,
-    firstname: string,
-    lastname: string,
-    password: string,
+export interface RequestInterface extends AxiosRequestConfig {
+    callback?: Dispatch<SetStateAction<{}>>;
+    ref: MutableRefObject<HTMLFormElement>
 }
 
-export const login = (data: ILoginUser, updateClient: (value: any) => void, ref: any) => {
-    return postRequest({
-        data,
-        endpoint: '/login',
-    }).then(({status, data}: AxiosResponse) => {
-        if (200 === status) {
-            const { token } = data;
-            setToken(token);
-            updateClient({
-                logged: true,
-                loginError: false,
-                token,
-                username: getUsername(),
+export class Login extends API {
+    public endpoint = '/login';
+
+    login({callback, data, ref}: RequestInterface) {
+        return super
+            .post({data})
+            .then(({status, data}: AxiosResponse) => {
+                if (200 === status) {
+                    const {token} = data;
+                    new Token().set(token);
+                    callback && callback({
+                        logged: true,
+                        loginError: false,
+                        token,
+                        username: new Username().get(),
+                    });
+                    ref.current.reset();
+                }
+            }).catch(() => callback && callback({
+                logged: false,
+                loginError: true,
+            }))
+    }
+}
+
+export class User extends API {
+    public endpoint = '/users';
+
+    register({data, ref}: RequestInterface) {
+        return super
+            .post({data})
+            .then(({status}: AxiosResponse) => {
+                if (201 === status) {
+                    ref.current.reset();
+                }
             });
-            ref.current.reset();
-        }
-    }).catch(() => updateClient({
-        logged: false,
-        loginError: true,
-    }))
-};
+    }
 
-export const logout = (updateClient: (value: any) => void) => {
-    deleteToken();
-    updateClient({
-        logged: false,
-        loginError: false,
-        token: null,
-        username: '',
-    })
-};
-
-export const register = async (data: IRegisterUser, ref: any) => {
-    postRequest({
-        data,
-        endpoint: '/users',
-    }).then(({status}: AxiosResponse) => {
-        if (201 === status) {
-            ref.current.reset();
-        }
-    })
-};
+    logout({callback}: { callback: Dispatch<SetStateAction<{}>> }) {
+        new Token().delete();
+        callback({
+            logged: false,
+            loginError: false,
+            token: null,
+            username: '',
+        })
+    }
+}

@@ -1,8 +1,10 @@
-import React, { useContext, useRef } from 'react';
+import React, { createRef, useContext } from 'react';
 import { IField } from './Field';
 import { Link } from 'react-router-dom';
-import { FormContext } from '../../contexts';
+import { FormContext, LanguageContext } from '../../contexts';
 import { Spinner } from '../Loader';
+import { GreenPilledButton } from '../Button';
+import { Icon } from '../Layout';
 
 export interface ILink {
     label: string,
@@ -21,44 +23,70 @@ const formatformToJson = (elements: any): string => {
     return JSON.stringify(Object.fromEntries(formData));
 };
 
-export const Form: React.FC<IForm> = ({ additionalLinks, buttonText, fields, submitForm = async () => {} }) => {
-    const { isLoading, dispatch } = useContext(FormContext);
-    const ref: any = useRef(null);
+export const Form: React.FC<IForm> = ({
+                                          additionalLinks, buttonText, fields, submitForm = async () => {
+    }
+                                      }) => {
+    const {isLoading, dispatch} = useContext(FormContext);
+    const {translate} = useContext(LanguageContext);
+    const t = (value: string) => translate(`form.field.${value}`);
+    const ref: any = createRef<HTMLFormElement>();
     return (
         <form
             onSubmit={(event: any) => {
                 event.preventDefault();
-                dispatch({ type: 'SET_LOADING', payload: true });
+                dispatch({type: 'SET_LOADING', payload: true});
                 submitForm(formatformToJson(event.target), ref)
                     .then(() => {
-                        dispatch({ type: 'SET_LOADING', payload: false });
+                        dispatch({type: 'SET_LOADING', payload: false});
                     });
             }}
-            {...{ className: 'row', ref }}>
+            className='row'
+            ref={ref}
+        >
             {
                 fields.map((field: IField, index: number) => (
-                    <div className={`tile m-0 ${field.classnames || 'g--12' }`} key={index}>
+                    <div className={`m-0 py-2 form-group ${field.className || 'col-12'}`} key={index}>
                         {
                             field.label ?
-                                <label htmlFor={ field.name }>{ field.label }</label> : ''
+                                <label htmlFor={field.name}>{t(`${field.name}.label`)}</label> : ''
                         }
                         {
                             'textarea' === field.type ?
-                                <textarea {...{ name: field.name, required: true, disabled: isLoading, rows: 3, placeholder: 'Une question, un mot doux ?', className: 'w-100' }}></textarea> :
-                                <input {...{ name: field.name, type: field.type || 'text', required: true, disabled: isLoading, placeholder: field.placeholder, className: 'w-100' }}/>
+                                <textarea {...{
+                                    className: 'w-100 form-control form-control-lg',
+                                    disabled: isLoading,
+                                    name: field.name,
+                                    placeholder: t(`${field.name}.placeholder`),
+                                    required: true,
+                                    rows: 3,
+                                }}/> :
+                                <input {...{
+                                    className: 'form-control form-control-lg',
+                                    disabled: isLoading,
+                                    name: field.name,
+                                    placeholder: t(`${field.name}.placeholder`),
+                                    required: true,
+                                    type: field.type || 'text',
+                                }}/>
                         }
                     </div>
                 ))
             }
-            <div className="text-center w-100">
-                <button className="btn--raised btn--lg btn--green" disabled={ isLoading }>{ isLoading ? <Spinner/> : buttonText || 'Valider' }</button>
+            <div className='text-center w-100'>
+                <GreenPilledButton type='submit'>{
+                    isLoading ?
+                        <Spinner/> :
+                        <><Icon icon='paper-plane'/> {translate(`form.button.${buttonText || 'validate'}`)}</>
+                }</GreenPilledButton>
             </div>
             {
                 additionalLinks ?
-                    <div className="text-center w-100 pt-1">
+                    <div className='text-center w-100 pt-1'>
                         {
                             additionalLinks.map((additionalLink: ILink, index: number) =>
-                                <Link key={ index } to={ additionalLink.path }>{ additionalLink.label }</Link>
+                                <Link key={index}
+                                      to={additionalLink.path}>{translate(`form.additionalLink.${additionalLink.label}`)}</Link>
                             )
                         }
                     </div> : ''

@@ -5,33 +5,31 @@ import { ClientContext, LanguageContext } from '../../../contexts';
 import { Icon } from '../Icon';
 
 interface INavlink {
-    route: IRoute,
-    router: any,
+    route: IRoute
 }
 
-export const NavLink = ({ route, router }: INavlink) => {
-    const { updateClient } = useContext(ClientContext);
-    const { setSelectedLanguage, translate } = useContext(LanguageContext);
+export const NavLink = ({route}: INavlink) => {
+    const {updateClient} = useContext(ClientContext);
+    const {setSelectedLanguage, translate} = useContext(LanguageContext);
     return (
-        <Link
-            to={route.path}
-            onClick={
-                (event: any) => {
-                    if (route.handleClick) {
-                        event.preventDefault();
-                        if (route.changeLanguage) {
-                            route.changeLanguage(setSelectedLanguage)
+        <li className='nav-item'>
+            <Link
+                to={route.realPath || route.path as string}
+                onClick={
+                    (event: any) => {
+                        if (route.handleClick) {
+                            event.preventDefault();
+                            if (route.changeLanguage) {
+                                route.changeLanguage(setSelectedLanguage)
+                            }
+                            true !== route.handleClick && route.handleClick(updateClient)
                         }
-                        true !== route.handleClick && route.handleClick(updateClient)
                     }
                 }
-            }
-            className={`d-flex${router && router.location.pathname === route.path ? ' bg--turqoise color--paper' : ''}`}
-        >
-            <Icon>
-                {route.icon}
-            </Icon>
-            <span className="my-auto ml-1">{ translate(`navbar.${ route.name }`) }</span>
-        </Link>
+                className={`nav-link`}
+            >
+                <Icon {...route.icon}/>{' '}{translate(`navbar.${route.name}`)}
+            </Link>
+        </li>
     )
 };

@@ -1,26 +1,32 @@
 import React, { createContext, useState } from 'react';
-import { getToken } from '../helpers';
-import { IChildren } from '../components/Layout';
+import { Token } from '../helpers';
+
+const token = new Token().get();
 
 export const ClientContext = createContext({
-    logged: !!getToken(),
+    logged: !!token,
     loginError: false,
-    token: getToken() || null,
+    token: token,
     username: '',
-    updateClient: (v: any) => {},
+    updateClient: (v: any) => {
+    },
 });
 
-export const ClientProvider: React.FC<IChildren> = ({ children }) => {
+export const ClientProvider: React.FC = ({children}) => {
     const [client, setClient] = useState({
-        logged: !!getToken(),
+        logged: !!token,
         loginError: false,
-        token: getToken() || null,
+        token: token,
         username: ''
     });
 
     return (
         <ClientContext.Provider
-            value={{...client, updateClient: (v: any) => { setClient({...{...client, ...v}}) }}}
+            value={{
+                ...client, updateClient: (v: any) => {
+                    setClient({...{...client, ...v}})
+                }
+            }}
         >
             {children}
         </ClientContext.Provider>

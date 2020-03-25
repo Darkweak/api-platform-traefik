@@ -1,32 +1,27 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { email, firstname, lastname, password } from './Field';
 import { Form } from './';
-import { useRedirection } from '../../hooks';
-import { ClientContext, FormProvider } from '../../contexts';
-import { register } from '../../actions/user';
+import { FormProvider } from '../../contexts';
+import { User } from '../../actions';
 
-export const RegisterForm = () => {
-    const { logged } = useContext(ClientContext);
-    useRedirection(logged);
-    return (
-        <>
-            <FormProvider>
-                <Form {...{
-                    additionalLinks: [
-                        {
-                            label: 'Déjà inscrit ?',
-                            path: '/login',
-                        }
-                    ],
-                    fields: [
-                        lastname('g--6 g-t--12'),
-                        firstname('g--6 g-t--12'),
-                        email(),
-                        password()
-                    ],
-                    submitForm: register
-                }}/>
-            </FormProvider>
-        </>
-    );
-};
+export const RegisterForm = () => (
+    <>
+        <FormProvider>
+            <Form {...{
+                additionalLinks: [
+                    {
+                        label: 'login',
+                        path: '/login',
+                    }
+                ],
+                fields: [
+                    lastname('col-sm-6'),
+                    firstname('col-sm-6'),
+                    email(),
+                    password()
+                ],
+                submitForm: (data, ref) => new User().register({data, ref})
+            }}/>
+        </FormProvider>
+    </>
+);

@@ -1,5 +1,5 @@
 export interface RouteBreadcrumb {
-    label: JSX.Element|string,
+    label: string,
     path: string,
 }
 
